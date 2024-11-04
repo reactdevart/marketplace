@@ -1,0 +1,21 @@
+.auth-upload-file {
+  &__label {
+    font-size: 12px;
+    line-height: 18px;
+    color: var(--text-color-3);
+  }
+  &__area-wrapper {
+    margin-top: 6px;
+  }
+  &__hint {
+    margin-top: 6px;
+    display: flex;
+  }
+  &__hint-text {
+    margin-left: 10px;
+    max-width: 377px;
+    font-size: 12px;
+    line-height: 18px;
+    color: var(--text-color-2);
+  }
+}

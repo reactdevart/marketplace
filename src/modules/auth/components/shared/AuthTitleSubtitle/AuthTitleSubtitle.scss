@@ -1,0 +1,12 @@
+.auth-title-subtitle {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  &__title {
+    color: var(--text-color-1);
+  }
+  &__subtitle {
+    margin-top: 2px;
+    color: var(--text-color-2);
+  }
+}

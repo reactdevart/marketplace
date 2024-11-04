@@ -1,0 +1,22 @@
+.create-post {
+  &__title-steps-wrapper {
+    display: flex;
+    align-items: center;
+  }
+  &__title {
+    font-size: 25px;
+    font-weight: 600;
+    line-height: 37.5px;
+    color: var(--text-color-1);
+  }
+  &__steps {
+    margin-left: auto;
+    color: var(--text-color-2);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+  }
+  &__step-wrapper {
+    margin-top: 40px;
+  }
+}

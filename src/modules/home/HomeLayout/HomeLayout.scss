@@ -1,0 +1,59 @@
+.home-layout {
+  &__title {
+    font-size: 45px;
+    font-weight: 600;
+    line-height: 67.5px;
+    color: var(--text-color-1);
+    text-align: center;
+  }
+  &__general-categories-wrapper {
+    margin-top: 55px;
+  }
+  &__general-categories-list {
+    display: flex;
+    align-items: center;
+  }
+  &__general-category-item {
+    height: 95px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding-left: 22px;
+    background-color: var(--white-color);
+    border-radius: 14px;
+    box-shadow: 0px 4px 20px 0px rgba(28, 38, 71, 0.1);
+    flex: 1;
+    background-repeat: no-repeat;
+    background-position: right bottom;
+    & + .home-layout__general-category-item {
+      margin-left: 10px;
+    }
+    &--vehicle {
+      background-image: url('./images/vehicle.png');
+      background-position: right;
+    }
+    &--home {
+      background-image: url('./images/home.png');
+    }
+    &--jobs {
+      background-image: url('./images/jobs.png');
+    }
+    &--services {
+      background-image: url('./images/services.png');
+    }
+    &--items {
+      background-image: url('./images/items.png');
+    }
+  }
+  &__general-category-item-text {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 30px;
+    color: var(--text-color-1);
+  }
+  &__general-category-item-count {
+    line-height: 21px;
+    color: var(--text-color-2);
+  }
+}

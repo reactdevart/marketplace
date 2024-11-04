@@ -1,0 +1,40 @@
+.register-individual {
+  width: 100%;
+  &__input-wrapper {
+    height: 54px;
+    margin-top: 42px;
+  }
+  &__inputs-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    .register-individual__input-wrapper {
+      margin-top: 0;
+    }
+  }
+  &__checkbox-auth-link-wrapper {
+    margin-top: 22px;
+    display: flex;
+    align-items: center;
+  }
+  &__auth-link-wrapper {
+    margin-left: 4px;
+  }
+  &__auth-link-wrapper--login {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+  }
+  &__auth-or-wrapper {
+    margin-top: 20px;
+  }
+  &__social-buttons-wrapper {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+  }
+  &__social-button-wrapper {
+    height: 50px;
+  }
+}

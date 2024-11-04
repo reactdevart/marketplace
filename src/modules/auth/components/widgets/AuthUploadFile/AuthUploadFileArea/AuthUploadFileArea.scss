@@ -1,0 +1,34 @@
+.auth-upload-file-area {
+  border: 2px dashed var(--text-color-3);
+  border-radius: 10px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  &--drag {
+    border: 2px dashed var(--primary-1);
+  }
+  &__label-file-uploader-wrapper {
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+  }
+  &__label {
+    font-size: 12px;
+    line-height: 18px;
+    color: var(--text-color-3);
+  }
+  &__uploader-wrapper {
+    margin-left: 4px;
+  }
+  &__uploader-text {
+    font-size: 12px;
+    line-height: 18px;
+    color: var(--primary-1);
+    transition: color 0.2s ease-in-out;
+    &:hover {
+      color: var(--primary-2);
+    }
+  }
+}

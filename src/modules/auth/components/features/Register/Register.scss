@@ -1,0 +1,65 @@
+@import '@/styles/mixins.scss';
+
+.register {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  &__auth-title-subtitle-wrapper {
+    width: 100%;
+    display: flex;
+    flex-shrink: 0;
+    height: 60px;
+  }
+  &__tabs {
+    width: 100%;
+    height: 40px;
+    margin-top: 27px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+  }
+  &__tab-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    &--active {
+      .register__tab-item-text {
+        color: var(--primary-1);
+      }
+      .register__tab-item-line {
+        background-color: var(--primary-1);
+      }
+    }
+  }
+  &__tab-item-text {
+    font-size: 18px;
+    line-height: 27px;
+    color: var(--text-color-3);
+    transition: color 0.2s ease-in-out;
+  }
+  &__tab-item-line {
+    width: 100%;
+    margin-top: 7px;
+    height: 5px;
+    border-radius: 0px 100px 100px 0px;
+    background-color: var(--text-field-color);
+    transition: background-color 0.2s ease-in-out;
+  }
+  &__view-wrapper {
+    width: 100%;
+    display: flex;
+    max-height: calc(100vh - 300px);
+    flex-shrink: 0;
+    margin-top: 10px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    @include scroll;
+  }
+  &__view-wrapper-inner {
+    width: 100%;
+    padding: 0 4px;
+    transform: translateY(30px);
+  }
+}

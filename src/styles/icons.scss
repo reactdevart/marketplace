@@ -1,0 +1,118 @@
+@font-face {
+  font-family: 'icomoon';
+  src: url('./fonts/icomoon/icomoon.eot?ud7kpv');
+  src:
+    url('./fonts/icomoon/icomoon.eot?ud7kpv#iefix') format('embedded-opentype'),
+    url('./fonts/icomoon/icomoon.ttf?ud7kpv') format('truetype'),
+    url('./fonts/icomoon/icomoon.woff?ud7kpv') format('woff'),
+    url('./fonts/icomoon/icomoon.svg?ud7kpv#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+i {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-left-angel:before {
+  content: '\e91d';
+}
+.icon-eye-closed:before {
+  content: '\e91b';
+}
+.icon-eye:before {
+  content: '\e91c';
+}
+.icon-arrow-up:before {
+  content: '\e900';
+}
+.icon-mail:before {
+  content: '\e901';
+}
+.icon-plus:before {
+  content: '\e902';
+}
+.icon-circle-close:before {
+  content: '\e903';
+}
+.icon-ai:before {
+  content: '\e904';
+}
+.icon-link:before {
+  content: '\e905';
+}
+.icon-check:before {
+  content: '\e906';
+}
+.icon-arrow-down:before {
+  content: '\e907';
+}
+.icon-star:before {
+  content: '\e908';
+}
+.icon-heart:before {
+  content: '\e909';
+}
+.icon-edit:before {
+  content: '\e90a';
+}
+.icon-circle-checked:before {
+  content: '\e90b';
+}
+.icon-filled-heart:before {
+  content: '\e90c';
+}
+.icon-mail-2:before {
+  content: '\e90d';
+}
+.icon-phone-2:before {
+  content: '\e90e';
+}
+.icon-instagram:before {
+  content: '\e90f';
+}
+.icon-twitter:before {
+  content: '\e910';
+}
+.icon-youtube:before {
+  content: '\e911';
+}
+.icon-facebook:before {
+  content: '\e912';
+}
+.icon-job:before {
+  content: '\e913';
+}
+.icon-items:before {
+  content: '\e914';
+}
+.icon-home:before {
+  content: '\e915';
+}
+.icon-services:before {
+  content: '\e916';
+}
+.icon-car:before {
+  content: '\e917';
+}
+.icon-phone:before {
+  content: '\e918';
+}
+.icon-bell:before {
+  content: '\e919';
+}
+.icon-search:before {
+  content: '\e91a';
+}

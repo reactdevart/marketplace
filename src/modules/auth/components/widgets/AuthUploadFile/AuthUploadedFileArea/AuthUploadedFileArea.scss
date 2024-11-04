@@ -1,0 +1,14 @@
+.auth-uploaded-file-area {
+  &__file-uplader-wrapper {
+    margin-top: 6px;
+  }
+  &__file-uplader-text {
+    font-size: 14px;
+    line-height: 16.94px;
+    color: var(--primary-1);
+    transition: color 0.2s ease-in-out;
+    &:hover {
+      color: var(--primary-2);
+    }
+  }
+}

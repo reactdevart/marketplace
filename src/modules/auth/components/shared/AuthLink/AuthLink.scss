@@ -1,0 +1,20 @@
+.auth-link {
+  font-size: 16px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  &__label {
+    color: var(--text-color-2);
+    margin-right: 4px;
+  }
+
+  &__link,
+  &__callback {
+    color: var(--primary-1);
+    transition: color 0.2s ease-in-out;
+    cursor: pointer;
+    &:hover {
+      color: var(--primary-2);
+    }
+  }
+}

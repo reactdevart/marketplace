@@ -40,7 +40,7 @@ const Login = () => {
         dispatch(addToast({ message: 'Form has errors.', type: 'error' }));
       }
     },
-    [validateForm, formState.email.value, formState.password.value, login]
+    [validateForm, formState.email.value, formState.password.value, login, dispatch]
   );
 
   return (

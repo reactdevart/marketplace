@@ -32,12 +32,11 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
     });
 
     if (refreshResult?.data) {
-      const user = api.getState().auth.user;
+      api.getState().auth.user;
 
-      api.dispatch(setCredentials({ ...refreshResult.data, user }));
       result = await baseQuery(args, api, extraOptions);
     } else {
-      api.dispatch(logout());
+      console.log('Failed to refresh token');
     }
   }
 

@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   useGetCategoriesForGeneralCategoryIdQuery,
   useGetSubcategoriesForCategoryIdQuery,
-} from '@/api/categories/categoriesApi';
+} from '@/store/categories/categoriesApi';
 import { setSelectedCategory } from '@/store/categories/categoriesSlice';
 
 const CategoriesForm = () => {

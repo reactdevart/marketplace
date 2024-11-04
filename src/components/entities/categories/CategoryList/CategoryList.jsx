@@ -3,8 +3,8 @@ import '@/components/entities/categories/CategoryList/CategoryList.scss';
 import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { useGetCategoriesForGeneralCategoryIdQuery } from '@/api/categories/categoriesApi';
 import Spinner from '@/components/shared/Spinner';
+import { useGetCategoriesForGeneralCategoryIdQuery } from '@/store/categories/categoriesApi';
 import { setSelectedCategory } from '@/store/categories/categoriesSlice';
 
 const CategoryList = () => {

@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
 
+import { apiSlice } from '@/api/apiSlice';
 import { authReducer } from '@/store/auth/authSlice';
 import { categoriesReducer } from '@/store/categories/categoriesSlice';
 import { toasterReducer } from '@/store/toaster/toasterSlice';
-import { apiSlice } from '../api/apiSlice';
 
 const store = configureStore({
   reducer: {

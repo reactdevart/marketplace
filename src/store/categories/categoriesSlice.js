@@ -1,9 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createDraftSafeSelector, createSlice } from '@reduxjs/toolkit';
+
+import { categoriesApi } from '@/store/categories/categoriesApi';
 
 const initialState = {
   selectedGeneralCategory: null,
   selectedCategory: null,
-  selectedSubcategory: null,
+  subcategory: {
+    data: null,
+    selectedSubcategory: null,
+  },
 };
 
 const categoriesSlice = createSlice({
@@ -17,11 +22,27 @@ const categoriesSlice = createSlice({
       state.selectedCategory = action.payload;
     },
     setSelectedSubcategory: (state, action) => {
-      state.selectedSubcategory = action.payload;
+      state.subcategory.selectedSubcategory = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addMatcher(categoriesApi.endpoints.getSubcategoriesForCategoryId.matchFulfilled, (state, action) => {
+      state.subcategory.data = action.payload?.data;
+      state.subcategory.selectedSubcategory = action.payload?.data?.[0] || null;
+    });
   },
 });
 
 export const { setSelectedGeneralCategory, setSelectedCategory, setSelectedSubcategory } = categoriesSlice.actions;
+
+export const getSubcategoriesData = createDraftSafeSelector(
+  (state) => state.categories.subcategory?.data,
+  (data) => data // This should return only `data`
+);
+
+export const getSelectedSubcategory = createDraftSafeSelector(
+  (state) => state.categories.subcategory?.selectedSubcategory,
+  (selectedSubcategory) => selectedSubcategory // This should return only `selectedSubcategory`
+);
 
 export const categoriesReducer = categoriesSlice.reducer;

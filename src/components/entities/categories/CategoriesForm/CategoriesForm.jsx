@@ -13,16 +13,16 @@ const CategoriesForm = () => {
   const dispatch = useDispatch();
   const selectedGeneralCategory = useSelector((state) => state.categories.selectedGeneralCategory);
   const selectedCategory = useSelector((state) => state.categories.selectedCategory);
+
   const { data: categories, isSuccess: isCategoriesSuccess } = useGetCategoriesForGeneralCategoryIdQuery(
     selectedGeneralCategory?.id,
     {
       skip: !selectedGeneralCategory,
     }
   );
-  const { data: subcategories } = useGetSubcategoriesForCategoryIdQuery(selectedCategory?.id, {
+  useGetSubcategoriesForCategoryIdQuery(selectedCategory?.id, {
     skip: !selectedCategory,
   });
-  console.log(subcategories); // TODO: remove
 
   useEffect(() => {
     if (isCategoriesSuccess && categories?.data?.length === 1 && categories?.data[0]?.name === 'All') {

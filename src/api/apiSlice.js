@@ -16,7 +16,6 @@ const baseQuery = fetchBaseQuery({
 
 const baseQueryWithReauth = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
-  console.log(result);
 
   if (result?.error && result?.error.status === 401) {
     const refreshResult = await baseQuery({
@@ -32,10 +31,13 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
     });
 
     if (refreshResult?.data) {
+      // const user = api.getState().auth.user;
       api.getState().auth.user;
 
+      // api.dispatch(setCredentials({ ...refreshResult.data, user }));
       result = await baseQuery(args, api, extraOptions);
     } else {
+      // api.dispatch(logout());
       console.log('Failed to refresh token');
     }
   }

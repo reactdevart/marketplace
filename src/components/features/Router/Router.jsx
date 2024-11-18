@@ -8,7 +8,7 @@ import AdminLayout from '@/modules/admin/AdminLayout';
 import AuthLayout from '@/modules/auth/AuthLayout';
 import PostsLayout from '@/modules/posts/PostsLayout';
 
-const isAuthenticated = false;
+const isAuthenticated = true;
 
 const Router = ({ children }) => {
   return (

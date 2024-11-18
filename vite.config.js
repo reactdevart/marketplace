@@ -1,8 +1,7 @@
 import react from '@vitejs/plugin-react';
-import path from 'path'; // Add this line
 import { defineConfig } from 'vite';
+import path from 'path';
 
-// https://vitejs.dev/config/
 export default defineConfig({
   server: {
     port: 3000,
@@ -10,8 +9,7 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      // eslint-disable-next-line no-undef
-      '@': path.resolve(__dirname, './src'),
+      '@': path.resolve(__dirname, 'src'),
     },
   },
   css: {
@@ -22,7 +20,7 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: './build',
-    emptyOutDir: true, // also necessary
+    outDir: 'build',
+    emptyOutDir: true,
   },
 });

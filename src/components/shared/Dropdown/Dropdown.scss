@@ -36,6 +36,7 @@
     overflow-x: hidden;
     overflow-y: auto;
     max-height: 216px;
+    z-index: 1;
     @include scroll;
   }
   &__item-wrapper {

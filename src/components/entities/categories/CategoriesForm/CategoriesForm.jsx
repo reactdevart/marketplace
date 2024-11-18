@@ -8,7 +8,8 @@ import {
   useGetSubcategoriesForCategoryIdQuery,
 } from '@/store/categories/categoriesApi';
 import { setSelectedCategory } from '@/store/categories/categoriesSlice';
-import Dropdown from '@/components/shared/Dropdown';
+import { POST_TYPES } from '@/constants/create-post';
+import CategoryFormRenderer from '@/components/entities/categories/CategoryFormRenderer';
 
 const CategoriesForm = () => {
   const dispatch = useDispatch();
@@ -22,11 +23,11 @@ const CategoriesForm = () => {
     }
   );
 
-  const { data: subcategories, isLoading } = useGetSubcategoriesForCategoryIdQuery(selectedCategory?.id, {
+  const { data: subcategories } = useGetSubcategoriesForCategoryIdQuery(selectedCategory?.id, {
     skip: !selectedCategory,
   });
 
-  console.log(isLoading);
+  const ctaegoryForm = POST_TYPES?.[selectedGeneralCategory?.name];
 
   useEffect(() => {
     if (isCategoriesSuccess && categories?.data?.length === 1 && categories?.data[0]?.name === 'All') {
@@ -34,22 +35,11 @@ const CategoriesForm = () => {
     }
   }, [isCategoriesSuccess, categories, dispatch]);
 
-  if (!subcategories?.data) return null;
-
-  const onSelect = (option) => {
-    console.log(option);
-  };
+  if (!subcategories?.data || !ctaegoryForm || !ctaegoryForm.subcategories?.[selectedCategory?.name]) return null;
 
   return (
     <div className="categories-form">
-      {subcategories?.data?.[0]?.name !== 'All' && (
-        <Dropdown
-          options={subcategories.data}
-          sllectedOption={subcategories?.data?.[0]}
-          onSelect={onSelect}
-          isOutsideClickEnabled
-        />
-      )}
+      <CategoryFormRenderer form={ctaegoryForm.subcategories?.[selectedCategory?.name]} />
     </div>
   );
 };

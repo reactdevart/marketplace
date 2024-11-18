@@ -1,20 +1,19 @@
-import { useEffect } from 'react';
-import Input from '@/components/shared/Input';
+import '@/components/entities/categories/CategoryFormRenderer/CategoryFormRenderer.scss';
+
 import Dropdown from '@/components/shared/Dropdown';
-import './CategoryFormRenderer.scss';
+import Input from '@/components/shared/Input';
 import useFormValidator from '@/hooks/useFormValidator';
 
 const CategoryFormRenderer = ({ form }) => {
-  // Extract fields and validations from the form data
-  const fields = form?.fields || [];
+  const { name = '', ...rendereredFileds } = form;
 
-  console.log({
-    fields,
-    form,
-  });
+  const collectionOfFileds = Object.values(rendereredFileds)
+    .map((item) => item.fields)
+    .flat();
 
-  // Initialize form state and validation using your custom hook
-  const initialState = fields.reduce((acc, field) => {
+  console.log(name);
+
+  const initialState = collectionOfFileds.reduce((acc, field) => {
     acc[field.fieldName] = {
       value: '',
       ...field.validation,
@@ -24,16 +23,6 @@ const CategoryFormRenderer = ({ form }) => {
   }, {});
 
   const { formState, errors, handleChange, validateForm } = useFormValidator(initialState);
-
-  // Handler for form submission
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    if (validateForm()) {
-      console.log('Form Submitted:', formState);
-    } else {
-      console.log('Validation Errors:', errors);
-    }
-  };
 
   // Render the form fields dynamically based on the type
   const renderField = (field) => {
@@ -60,7 +49,6 @@ const CategoryFormRenderer = ({ form }) => {
         );
 
       case 'radio':
-        console.log(options);
         return (
           <Dropdown
             key={fieldName}
@@ -101,9 +89,25 @@ const CategoryFormRenderer = ({ form }) => {
     }
   };
 
+  const renderSection = Object.values(rendereredFileds).map(({ label, fields }, index) => (
+    <div key={index}>
+      <div>{label}</div>
+      {fields.map((field) => renderField(field))}
+    </div>
+  ));
+  // Handler for form submission
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+      console.log('Form Submitted:', formState);
+    } else {
+      console.log('Validation Errors:', errors);
+    }
+  };
+
   return (
     <form className="category-form-renderer" onSubmit={handleFormSubmit}>
-      {fields.map((field) => renderField(field))}
+      {renderSection}
       <button type="submit" className="category-form-renderer__submit">
         Submit
       </button>

@@ -3,13 +3,13 @@ import '@/components/entities/categories/CategoriesForm/CategoriesForm.scss';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import CategoryFormRenderer from '@/components/entities/categories/CategoryFormRenderer';
+import { POST_TYPES } from '@/constants/create-post';
 import {
   useGetCategoriesForGeneralCategoryIdQuery,
   useGetSubcategoriesForCategoryIdQuery,
 } from '@/store/categories/categoriesApi';
 import { setSelectedCategory } from '@/store/categories/categoriesSlice';
-import { POST_TYPES } from '@/constants/create-post';
-import CategoryFormRenderer from '@/components/entities/categories/CategoryFormRenderer';
 
 const CategoriesForm = () => {
   const dispatch = useDispatch();

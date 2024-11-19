@@ -5,10 +5,18 @@ export const POST_TYPES = {
     categoryName: 'items',
     subcategories: {
       'Antiques & Collectibles': {
-        name: 'Antiques & Collectibles',
         generalInformation: {
           label: 'General Information',
+          direction: 'row',
           fields: [
+            {
+              fieldName: 'subcategory',
+              type: 'select',
+              validation: {
+                required: true,
+              },
+              options: 'dynamic',
+            },
             {
               fieldName: 'postTitle',
               type: 'text',
@@ -24,6 +32,20 @@ export const POST_TYPES = {
                 min: 1,
               },
             },
+            {
+              fieldName: 'location',
+              type: 'select',
+              validation: {
+                required: true,
+              },
+              options: 'dynamic',
+            },
+          ],
+        },
+        detailedInformation: {
+          label: 'Detailed Information',
+          direction: 'column',
+          fields: [
             {
               fieldName: 'condition',
               type: 'radio',
@@ -58,14 +80,6 @@ export const POST_TYPES = {
               },
             },
             {
-              fieldName: 'subcategory',
-              type: 'select',
-              validation: {
-                required: true,
-              },
-              options: 'dynamic',
-            },
-            {
               fieldName: 'pictures',
               type: 'file',
               validation: {
@@ -73,18 +87,11 @@ export const POST_TYPES = {
                 maxCount: 5,
               },
             },
-            {
-              fieldName: 'location',
-              type: 'select',
-              validation: {
-                required: true,
-              },
-              options: 'dynamic',
-            },
           ],
         },
         contactInfo: {
           label: 'Contact Information',
+          direction: 'column',
           fields: [
             {
               fieldName: 'email',

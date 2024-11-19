@@ -7,11 +7,7 @@ import useRenderField from '@/hooks/useRenderField';
 import { extractFields, getInitialState } from '@/utils/formUtils';
 
 const CategoryFormRenderer = ({ form }) => {
-  const { name = '', ...renderedFields } = form;
-
-  console.log(name);
-
-  const collectionOfFields = useMemo(() => extractFields(renderedFields), [renderedFields]);
+  const collectionOfFields = useMemo(() => extractFields(form), [form]);
 
   const initialState = useMemo(() => getInitialState(collectionOfFields), [collectionOfFields]);
 
@@ -20,13 +16,20 @@ const CategoryFormRenderer = ({ form }) => {
 
   const renderSection = useMemo(
     () =>
-      Object.values(renderedFields).map(({ label, fields }, index) => (
-        <div key={index}>
-          <div>{label}</div>
-          {fields.map((field) => renderField(field))}
+      Object.values(form).map(({ label, fields, direction }, index) => (
+        <div className="category-form-renderer__section-renderer" key={index}>
+          <span className="category-form-renderer__section-label">{label}</span>
+          <div
+            style={{
+              gridTemplateColumns: `repeat(${direction === 'row' ? '2' : '1'}, 1fr)`,
+            }}
+            className="category-form-renderer__fields"
+          >
+            {fields.map((field) => renderField(field))}
+          </div>
         </div>
       )),
-    [renderedFields, renderField]
+    [form, renderField]
   );
 
   const handleFormSubmit = useCallback(
@@ -44,9 +47,6 @@ const CategoryFormRenderer = ({ form }) => {
   return (
     <form className="category-form-renderer" onSubmit={handleFormSubmit}>
       {renderSection}
-      <button type="submit" className="category-form-renderer__submit">
-        Submit
-      </button>
     </form>
   );
 };

@@ -3,7 +3,7 @@ import '@/components/shared/Dropdown/Dropdown.scss';
 import classNames from 'classnames';
 import { memo, useEffect, useMemo, useRef, useState } from 'react';
 
-import { useOutsideClick } from '@/hooks/cec';
+import { useOutsideClick } from '@/hooks/useOutsideClick';
 
 const generateUniqueId = () => `id-${Math.random().toString(36).substr(2, 9)}`;
 

@@ -7,7 +7,16 @@ import { useOutsideClick } from '@/hooks/useOutsideClick';
 
 const generateUniqueId = () => `id-${Math.random().toString(36).substr(2, 9)}`;
 
-const Dropdown = ({ options = [], onSelect, sllectedOption, isOutsideClickEnabled }) => {
+const Dropdown = ({
+  options = [],
+  onSelect,
+  sllectedOption,
+  isOutsideClickEnabled,
+  label,
+  height,
+  required,
+  withStar,
+}) => {
   const dropdownRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -54,26 +63,33 @@ const Dropdown = ({ options = [], onSelect, sllectedOption, isOutsideClickEnable
 
   return (
     <div className={classNames('dropdown', { 'dropdown--open': isOpen })} ref={dropdownRef}>
-      <div className="dropdown__header" onClick={() => setIsOpen((prev) => !prev)}>
-        <span className="dropdown__name">{currentSelection?.name || 'Select an option'}</span>
-        <i className="dropdown__header-icon icon-arrow-down" />
-      </div>
-      {isOpen && (
-        <div className="dropdown__list">
-          {optionsWithId.map((option) => (
-            <div
-              className={classNames('dropdown__item-wrapper', {
-                'dropdown__item-wrapper--active': option.id === currentSelection?.id,
-              })}
-              key={option.id}
-              onClick={() => handleSelect(option)}
-            >
-              <span className="dropdown__item">{option.name}</span>
-              {option.id === currentSelection?.id && <i className="dropdown__item-icon icon-check" />}
-            </div>
-          ))}
-        </div>
+      {label && (
+        <span className="dropdown__label">
+          {label} {required && withStar && <span className="dropdown__label-required">*</span>}
+        </span>
       )}
+      <div style={{ height: height || 'auto' }} className="dropdown__header-body-wrapper">
+        <div className="dropdown__header" onClick={() => setIsOpen((prev) => !prev)}>
+          <span className="dropdown__name">{currentSelection?.name || 'Select an option'}</span>
+          <i className="dropdown__header-icon icon-arrow-down" />
+        </div>
+        {isOpen && (
+          <div className="dropdown__list">
+            {optionsWithId.map((option) => (
+              <div
+                className={classNames('dropdown__item-wrapper', {
+                  'dropdown__item-wrapper--active': option.id === currentSelection?.id,
+                })}
+                key={option.id}
+                onClick={() => handleSelect(option)}
+              >
+                <span className="dropdown__item">{option.name}</span>
+                {option.id === currentSelection?.id && <i className="dropdown__item-icon icon-check" />}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

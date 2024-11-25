@@ -6,20 +6,21 @@ import Input from '@/components/shared/Input';
 const useRenderField = ({ formState, errors, handleChange }) => {
   return useCallback(
     (field) => {
-      const { fieldName, type, options, required } = field;
+      const { fieldName, type, options, label = '', required } = field;
       const value = formState[fieldName]?.value || '';
-
       switch (type) {
         case 'text':
         case 'textarea':
         case 'number':
           return (
             <Input
+              withStar={field?.validation?.required}
+              required={field?.validation?.required}
+              style={{ height: 54 }}
               key={fieldName}
-              label={fieldName}
+              label={label}
               value={value}
               error={errors[fieldName]}
-              required={required}
               name={fieldName}
               type={type === 'number' ? 'number' : 'text'}
               onChange={handleChange}
@@ -32,6 +33,10 @@ const useRenderField = ({ formState, errors, handleChange }) => {
         case 'select':
           return (
             <Dropdown
+              withStar={field?.validation?.required}
+              required={field?.validation?.required}
+              height={54}
+              label={label}
               key={fieldName}
               options={options}
               onSelect={(option) => handleChange({ target: { name: fieldName, value: option.value } })}

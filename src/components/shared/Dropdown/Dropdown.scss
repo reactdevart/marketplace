@@ -4,7 +4,23 @@
   width: 100%;
   height: 100%;
   display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   position: relative;
+  &__label {
+    width: 100%;
+    font-weight: 600;
+    line-height: 21px;
+    color: var(--text-color-1);
+    margin-bottom: 10px;
+  }
+  &__label-required {
+    color: var(--error-color);
+  }
+  &__header-body-wrapper {
+    width: 100%;
+    height: 100%;
+  }
   &__header {
     width: 100%;
     height: 100%;

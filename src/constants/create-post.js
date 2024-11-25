@@ -10,6 +10,7 @@ export const POST_TYPES = {
           direction: 'row',
           fields: [
             {
+              label: 'Subcategory',
               fieldName: 'subcategory',
               type: 'select',
               validation: {
@@ -18,6 +19,7 @@ export const POST_TYPES = {
               options: 'dynamic',
             },
             {
+              label: 'Post Title',
               fieldName: 'postTitle',
               type: 'text',
               validation: {
@@ -26,19 +28,21 @@ export const POST_TYPES = {
               },
             },
             {
-              fieldName: 'price',
-              type: 'number',
-              validation: {
-                min: 1,
-              },
-            },
-            {
+              label: 'Location',
               fieldName: 'location',
               type: 'select',
               validation: {
                 required: true,
               },
               options: 'dynamic',
+            },
+            {
+              label: 'Price',
+              fieldName: 'price',
+              type: 'number',
+              validation: {
+                min: 1,
+              },
             },
           ],
         },

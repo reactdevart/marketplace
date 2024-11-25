@@ -1,4 +1,4 @@
-@import '@/styles/mixins.scss';
+@use '@/styles/mixins.scss' as styles;
 
 .dropdown {
   width: 100%;
@@ -37,7 +37,7 @@
     overflow-y: auto;
     max-height: 216px;
     z-index: 1;
-    @include scroll;
+    @include styles.scroll;
   }
   &__item-wrapper {
     display: flex;

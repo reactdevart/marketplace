@@ -1,4 +1,4 @@
-@import '@/styles/mixins.scss';
+@use '@/styles/mixins.scss' as styles;
 
 .general-category-list {
   &__title {
@@ -65,7 +65,7 @@
     overflow-x: hidden;
     overflow-y: auto;
     padding-right: 2px;
-    @include scroll;
+    @include styles.scroll;
   }
   &__category-dropdown-inner {
     min-height: 135px;

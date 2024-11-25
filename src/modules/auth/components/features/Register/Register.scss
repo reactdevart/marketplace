@@ -1,4 +1,4 @@
-@import '@/styles/mixins.scss';
+@use '@/styles/mixins.scss' as styles;
 
 .register {
   width: 100%;
@@ -55,7 +55,7 @@
     margin-top: 10px;
     overflow-x: hidden;
     overflow-y: auto;
-    @include scroll;
+    @include styles.scroll;
   }
   &__view-wrapper-inner {
     width: 100%;

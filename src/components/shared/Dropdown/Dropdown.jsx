@@ -10,7 +10,7 @@ const generateUniqueId = () => `id-${Math.random().toString(36).substr(2, 9)}`;
 const Dropdown = ({
   options = [],
   onSelect,
-  sllectedOption,
+  selectedOption,
   isOutsideClickEnabled,
   label,
   height,
@@ -20,7 +20,6 @@ const Dropdown = ({
   const dropdownRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  // Generate IDs for options if missing
   const optionsWithId = useMemo(
     () =>
       Array.isArray(options)
@@ -34,26 +33,26 @@ const Dropdown = ({
 
   // Ensure the initial selection has an ID, and reuse existing ID if possible
   const initialSelection = useMemo(() => {
-    if (sllectedOption) {
+    if (selectedOption) {
       // Check if the sllectedOption exists in optionsWithId
-      const matchedOption = optionsWithId.find((option) => option.name === sllectedOption.name);
-      return matchedOption ? matchedOption : { ...sllectedOption, id: sllectedOption.id ?? generateUniqueId() };
+      const matchedOption = optionsWithId.find((option) => option.name === selectedOption.name);
+      return matchedOption ? matchedOption : { ...selectedOption, id: selectedOption.id ?? generateUniqueId() };
     }
     return null;
-  }, [sllectedOption, optionsWithId]);
+  }, [selectedOption, optionsWithId]);
 
   const [currentSelection, setCurrentSelection] = useState(initialSelection);
 
   useOutsideClick(dropdownRef, () => setIsOpen(false), isOutsideClickEnabled);
 
   useEffect(() => {
-    if (sllectedOption) {
-      const matchedOption = optionsWithId.find((option) => option.name === sllectedOption.name);
+    if (selectedOption) {
+      const matchedOption = optionsWithId.find((option) => option.name === selectedOption.name);
       setCurrentSelection(
-        matchedOption ? matchedOption : { ...sllectedOption, id: sllectedOption.id ?? generateUniqueId() }
+        matchedOption ? matchedOption : { ...selectedOption, id: selectedOption.id ?? generateUniqueId() }
       );
     }
-  }, [sllectedOption, optionsWithId]);
+  }, [selectedOption, optionsWithId]);
 
   const handleSelect = (option) => {
     setCurrentSelection(option);

@@ -4,6 +4,11 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  &:has(.input__constant-symbol) {
+    .input__area {
+      padding-left: 30px;
+    }
+  }
   &__label {
     font-weight: 600;
     line-height: 21px;
@@ -66,6 +71,12 @@
     color: var(--error-color);
     font-size: 12px;
     line-height: 18px;
+  }
+  &__constant-symbol {
+    position: absolute;
+    transform: translateY(-50%);
+    left: 20px;
+    color: var(--text-color-1);
   }
 }
 

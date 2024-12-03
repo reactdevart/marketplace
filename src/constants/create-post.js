@@ -1,3 +1,4 @@
+import { TRIGGERS } from '@/constants/triggers';
 import { EMAIL_PATTERN } from '@/modules/auth/AuthLayout/constants';
 
 export const POST_TYPES = {
@@ -17,6 +18,7 @@ export const POST_TYPES = {
                 required: true,
               },
               options: 'dynamic',
+              trigger: TRIGGERS.GET_FROM_SUBCATEGORY,
             },
             {
               label: 'Post Title',
@@ -30,18 +32,19 @@ export const POST_TYPES = {
             {
               label: 'Location',
               fieldName: 'location',
-              type: 'select',
+              type: 'location',
               validation: {
                 required: true,
               },
-              options: 'dynamic',
             },
             {
               label: 'Price',
               fieldName: 'price',
-              type: 'number',
+              type: 'text',
+              constantSymbol: '$',
               validation: {
                 min: 1,
+                isNumber: true,
               },
             },
           ],
@@ -76,6 +79,7 @@ export const POST_TYPES = {
               ],
             },
             {
+              label: 'Description',
               fieldName: 'description',
               type: 'textarea',
               validation: {
@@ -87,7 +91,6 @@ export const POST_TYPES = {
               fieldName: 'pictures',
               type: 'file',
               validation: {
-                required: true,
                 maxCount: 5,
               },
             },
@@ -106,6 +109,7 @@ export const POST_TYPES = {
               },
             },
             {
+              label: 'Phone Number',
               fieldName: 'phoneNumber',
               type: 'number',
               maxCount: 2,
@@ -116,6 +120,7 @@ export const POST_TYPES = {
               },
             },
             {
+              label: 'Web and Social',
               fieldName: 'webAndSocial',
               type: 'text',
               maxCount: 2,

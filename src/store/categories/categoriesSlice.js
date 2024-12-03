@@ -37,12 +37,16 @@ export const { setSelectedGeneralCategory, setSelectedCategory, setSelectedSubca
 
 export const getSubcategoriesData = createDraftSafeSelector(
   (state) => state.categories.subcategory?.data,
-  (data) => data // This should return only `data`
+  (data) => data
+);
+
+export const getSubcategoriesoptions = createDraftSafeSelector(getSubcategoriesData, (data) =>
+  data.map((item) => ({ label: item.name, name: item.name, id: item.id }))
 );
 
 export const getSelectedSubcategory = createDraftSafeSelector(
   (state) => state.categories.subcategory?.selectedSubcategory,
-  (selectedSubcategory) => selectedSubcategory // This should return only `selectedSubcategory`
+  (selectedSubcategory) => selectedSubcategory
 );
 
 export const categoriesReducer = categoriesSlice.reducer;

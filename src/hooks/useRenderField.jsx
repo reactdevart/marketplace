@@ -1,15 +1,15 @@
 import { useCallback } from 'react';
 
 import Dropdown from '@/components/shared/Dropdown';
-import Input from '@/components/shared/Input';
-import Location from '@/components/widgets/Location';
-import DropdownSubCategory from '@/components/widgets/DropdownSubCategory';
 import FileUploader from '@/components/shared/FileUploader';
+import Input from '@/components/shared/Input';
+import DropdownSubCategory from '@/components/widgets/DropdownSubCategory';
+import Location from '@/components/widgets/Location';
 
 const useRenderField = ({ formState, errors, handleChange }) => {
   return useCallback(
     (field) => {
-      const { fieldName, type, options, label = '', constantSymbol = '', trigger = '', required } = field;
+      const { fieldName, type, options, label = '', constantSymbol = '', trigger = '' } = field;
       const value = formState[fieldName]?.value || '';
       switch (type) {
         case 'text':
@@ -88,8 +88,13 @@ const useRenderField = ({ formState, errors, handleChange }) => {
                     isOutsideClickEnabled
                   />
                 );
+
+              default:
+                return null;
             }
           }
+          return null;
+
         default:
           return null;
       }

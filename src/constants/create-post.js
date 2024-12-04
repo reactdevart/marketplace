@@ -1,3 +1,4 @@
+import { acceptedImageFormats } from '@/constants/common';
 import { TRIGGERS } from '@/constants/triggers';
 import { EMAIL_PATTERN } from '@/modules/auth/AuthLayout/constants';
 
@@ -14,11 +15,11 @@ export const POST_TYPES = {
               label: 'Subcategory',
               fieldName: 'subcategory',
               type: 'select',
+              options: 'dynamic',
+              trigger: TRIGGERS.GET_FROM_SUBCATEGORY,
               validation: {
                 required: true,
               },
-              options: 'dynamic',
-              trigger: TRIGGERS.GET_FROM_SUBCATEGORY,
             },
             {
               label: 'Post Title',
@@ -54,29 +55,14 @@ export const POST_TYPES = {
           direction: 'column',
           fields: [
             {
+              label: 'Condition',
               fieldName: 'condition',
               type: 'radio',
               validation: {
                 required: true,
               },
-              options: [
-                {
-                  label: 'New',
-                  name: 'new',
-                },
-                {
-                  label: 'usedLikedNew',
-                  name: 'Used (Like new)',
-                },
-                {
-                  label: 'usedGood',
-                  name: 'Used (Good)',
-                },
-                {
-                  label: 'usedFair',
-                  name: 'Used (Fair)',
-                },
-              ],
+              options: 'dynamic',
+              trigger: TRIGGERS.GET_FROM_SUBCATEGORY_OPTIONS,
             },
             {
               label: 'Description',
@@ -92,6 +78,7 @@ export const POST_TYPES = {
               type: 'file',
               validation: {
                 maxCount: 5,
+                acceptedFormats: acceptedImageFormats,
               },
             },
           ],

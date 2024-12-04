@@ -14,25 +14,25 @@ import AuthLink from '@/modules/auth/components/shared/AuthLink';
 import AuthOr from '@/modules/auth/components/shared/AuthOr';
 import AuthTitleSubtitle from '@/modules/auth/components/shared/AuthTitleSubtitle';
 import { useLoginMutation } from '@/store/auth/authApiSlice';
+import { setCredentials } from '@/store/auth/authSlice';
 import { addToast } from '@/store/toaster/toasterSlice';
 
 const Login = () => {
   const { formState, errors, handleChange, validateForm } = useFormValidator(LOGIN_FORM);
   const dispatch = useDispatch();
   const [login, { isLoading }] = useLoginMutation();
-  console.log({
-    isLoading,
-  });
   const handleSubmit = useCallback(
     async (e) => {
       e.preventDefault();
       if (validateForm()) {
         try {
-          await login({
+          const result = await login({
             username: formState.email.value,
             password: formState.password.value,
           }).unwrap();
-          // dispatch(setCredentials(result));
+          if (result?.access_token && result?.refresh_token) {
+            dispatch(setCredentials({ ...result, user: { email: formState.email.value } }));
+          }
         } catch (err) {
           dispatch(addToast({ message: err.data.message, type: 'error' }));
         }
@@ -49,7 +49,7 @@ const Login = () => {
         <AuthTitleSubtitle title="Hello! Welcome Back" subtitle="Enter your credentials to access your account" />
       </div>
       <div className="login__form-wrapper">
-        <Form onSubmit={handleSubmit} submitLabel="Login">
+        <Form pending={isLoading} onSubmit={handleSubmit} submitLabel="Login">
           <div className="login__email-input-wrapper">
             <EmailInput name="email" error={errors.email} value={formState.email.value} onChange={handleChange} />
           </div>

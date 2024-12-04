@@ -7,7 +7,7 @@ const LOGIN_FORM = {
     pattern: EMAIL_PATTERN,
   },
   password: {
-    value: '}9`+W7d6vb08ddd',
+    value: '}9`+W7d6vb08',
     required: true,
     minLength: 8,
     isPassword: true,

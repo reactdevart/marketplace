@@ -1,16 +1,19 @@
 import { useCallback } from 'react';
 
-import Dropdown from '@/components/shared/Dropdown';
 import FileUploader from '@/components/shared/FileUploader';
 import Input from '@/components/shared/Input';
+import RadioGroup from '@/components/shared/RadioGroup';
+import CreatePostFileUploader from '@/components/widgets/CreatePostFileUploader';
 import DropdownSubCategory from '@/components/widgets/DropdownSubCategory';
 import Location from '@/components/widgets/Location';
+import SubCategoryOptionsRadio from '@/components/widgets/SubCategoryOptionsRadio';
 
 const useRenderField = ({ formState, errors, handleChange }) => {
   return useCallback(
     (field) => {
       const { fieldName, type, options, label = '', constantSymbol = '', trigger = '' } = field;
       const value = formState[fieldName]?.value || '';
+
       switch (type) {
         case 'text':
         case 'textarea':
@@ -33,19 +36,27 @@ const useRenderField = ({ formState, errors, handleChange }) => {
           );
 
         case 'radio':
-          return (
-            <Dropdown
-              withStar={field?.validation?.required}
-              required={field?.validation?.required}
-              height={54}
-              label={label}
-              key={fieldName}
-              options={options}
-              onSelect={(option) => handleChange({ target: { name: fieldName, value: option.label } })}
-              selectedOption={options?.[0]}
-              isOutsideClickEnabled
-            />
-          );
+          if (!options) return null;
+          if (options === 'dynamic') {
+            if (!trigger) return null;
+            switch (trigger) {
+              case 'GET_FROM_SUBCATEGORY_OPTIONS':
+                return (
+                  <SubCategoryOptionsRadio
+                    withStar={field?.validation?.required}
+                    required={field?.validation?.required}
+                    label={label}
+                    name={fieldName}
+                    value={value}
+                    onChange={(value) => handleChange({ target: { name: fieldName, value } })}
+                  />
+                );
+
+              default:
+                return null;
+            }
+          }
+          return null;
         case 'location':
           return (
             <Location
@@ -60,16 +71,25 @@ const useRenderField = ({ formState, errors, handleChange }) => {
           );
         case 'file':
           return (
-            // <Input
-            //   key={fieldName}
-            //   label={fieldName}
-            //   type="file"
-            //   name={fieldName}
-            //   onChange={handleChange}
-            //   required={required}
-            //   error={errors[fieldName]}
-            // />
-            <FileUploader>hopar</FileUploader>
+            <CreatePostFileUploader
+              maxCount={formState[fieldName]?.maxCount}
+              files={formState[fieldName]?.value}
+              acceptedFormats={formState[fieldName]?.acceptedFormats}
+              removeFile={(index) =>
+                handleChange({
+                  target: {
+                    name: fieldName,
+                    value: [
+                      ...formState[fieldName]?.value.slice(0, index),
+                      ...formState[fieldName]?.value.slice(index + 1),
+                    ],
+                  },
+                })
+              }
+              handleFile={(file) =>
+                handleChange({ target: { name: fieldName, value: [...formState[fieldName]?.value, ...file] } })
+              }
+            />
           );
         case 'select':
           if (!options) return null;

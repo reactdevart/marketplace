@@ -32,7 +32,7 @@ const SubCategoryOptionsRadio = (props) => {
     <RadioGroup
       {...props}
       options={selectedSubcategoryOptions.options}
-      selectedValue={props?.value || (props?.required ? selectedSubcategoryOptions.options?.[0]?.label : '')}
+      selectedValue={props?.value || selectedSubcategoryOptions.options?.[0]}
     />
   );
 };

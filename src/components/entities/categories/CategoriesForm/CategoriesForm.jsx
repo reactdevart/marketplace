@@ -39,7 +39,11 @@ const CategoriesForm = () => {
 
   return (
     <div className="categories-form">
-      <CategoryFormRenderer form={ctaegoryForm.subcategories?.[selectedCategory?.name]} />
+      <CategoryFormRenderer
+        selectedGeneralCategory={selectedGeneralCategory}
+        selectedCategory={selectedCategory}
+        form={ctaegoryForm.subcategories?.[selectedCategory?.name]}
+      />
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import '@/components/shared/RadioGroup/RadioGroup.scss';
+import { useEffect } from 'react';
 
 const RadioGroup = ({
   options = [],
@@ -10,10 +11,13 @@ const RadioGroup = ({
   onChange,
   width = 20,
   height = 20,
+  value,
 }) => {
-  console.log({
-    selectedValue,
-  });
+  useEffect(() => {
+    if (!value && selectedValue) {
+      onChange(selectedValue);
+    }
+  }, [value, selectedValue]);
   return (
     <div className="radio-group">
       {label && (
@@ -23,14 +27,14 @@ const RadioGroup = ({
       )}
       <div className="radio-group__inner">
         {options.map((option) => (
-          <label key={option.label} className={`radio ${selectedValue === option.label ? 'radio--selected' : ''}`}>
+          <label key={option.id} className={`radio ${selectedValue === option.label ? 'radio--selected' : ''}`}>
             <input
               className="radio__input"
               type="radio"
               name={name}
               value={option.label}
               checked={selectedValue === option.label}
-              onChange={() => onChange(option.label)}
+              onChange={() => onChange(option)}
             />
             <span
               style={{

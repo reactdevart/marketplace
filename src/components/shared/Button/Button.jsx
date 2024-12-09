@@ -12,7 +12,6 @@ const Button = ({ children, ...props }) => {
         [`button--${props.variant}`]: !!props?.variant,
         [props?.className]: !!props?.className,
       })}
-      type="button"
       disabled={props?.pending}
     >
       {children}

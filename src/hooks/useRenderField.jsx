@@ -18,6 +18,7 @@ const useRenderField = ({ formState, errors, handleChange }) => {
         case 'text':
         case 'textarea':
         case 'number':
+          console.log(fieldName, field);
           return (
             <Input
               withStar={field?.validation?.required}
@@ -47,8 +48,10 @@ const useRenderField = ({ formState, errors, handleChange }) => {
                     required={field?.validation?.required}
                     label={label}
                     name={fieldName}
-                    value={value}
-                    onChange={(value) => handleChange({ target: { name: fieldName, value } })}
+                    value={value.name}
+                    onChange={(value) =>
+                      handleChange({ target: { name: fieldName, value: { name: value.label, id: value.id } } })
+                    }
                   />
                 );
 
@@ -104,7 +107,11 @@ const useRenderField = ({ formState, errors, handleChange }) => {
                     height={54}
                     label={label}
                     key={fieldName}
-                    onSelect={(option) => handleChange({ target: { name: fieldName, value: option.label } })}
+                    onSelect={(option) =>
+                      handleChange({ target: { name: fieldName, value: { name: option.label, id: option.id } } })
+                    }
+                    value={value}
+                    fillValueFromMount
                     isOutsideClickEnabled
                   />
                 );

@@ -16,6 +16,8 @@ const Dropdown = ({
   height,
   required,
   withStar,
+  fillValueFromMount = false,
+  value = '',
 }) => {
   const dropdownRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -53,6 +55,12 @@ const Dropdown = ({
       );
     }
   }, [selectedOption, optionsWithId]);
+
+  useEffect(() => {
+    if (fillValueFromMount && currentSelection && !value) {
+      onSelect(currentSelection);
+    }
+  }, [fillValueFromMount, currentSelection, value]);
 
   const handleSelect = (option) => {
     setCurrentSelection(option);

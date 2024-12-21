@@ -18,7 +18,6 @@ const useRenderField = ({ formState, errors, handleChange }) => {
         case 'text':
         case 'textarea':
         case 'number':
-          console.log(fieldName, field);
           return (
             <Input
               withStar={field?.validation?.required}

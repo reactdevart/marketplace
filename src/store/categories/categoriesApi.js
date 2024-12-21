@@ -17,6 +17,16 @@ export const categoriesApi = apiSlice.injectEndpoints({
     getPostTypes: builder.query({
       query: () => '/api/post-types',
     }),
+    createPost: builder.mutation({
+      query: (formData) => ({
+        url: '/api/posts',
+        method: 'POST',
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem('auth')).accessToken}`,
+        },
+      }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -27,4 +37,5 @@ export const {
   useGetSubcategoriesForCategoryIdQuery,
   useGetChildOptionsForParentIdQuery,
   useGetPostTypesQuery,
+  useCreatePostMutation,
 } = categoriesApi;

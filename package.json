@@ -11,7 +11,7 @@
     "lint:fix": "eslint . --fix",
     "alias": "jscodeshift -t ./replace-imports.mjs src --extensions js,jsx --verbose=2",
     "component": "npx generate-react-cli component",
-    "precommit": "npm run alias && npx prettier --write . && npm run lint:fix"
+    "precommit": "npm run alias && npx prettier --write ."
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.7",

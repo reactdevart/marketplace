@@ -1,8 +1,6 @@
 import { useCallback } from 'react';
 
-import FileUploader from '@/components/shared/FileUploader';
 import Input from '@/components/shared/Input';
-import RadioGroup from '@/components/shared/RadioGroup';
 import CreatePostFileUploader from '@/components/widgets/CreatePostFileUploader';
 import DropdownSubCategory from '@/components/widgets/DropdownSubCategory';
 import Location from '@/components/widgets/Location';
@@ -12,7 +10,7 @@ const useRenderField = ({ formState, errors, handleChange }) => {
   return useCallback(
     (field) => {
       const { fieldName, type, options, label = '', constantSymbol = '', trigger = '' } = field;
-      const value = formState[fieldName]?.value || '';
+      const value = formState?.[fieldName]?.value || '';
 
       switch (type) {
         case 'text':
@@ -27,7 +25,7 @@ const useRenderField = ({ formState, errors, handleChange }) => {
               constantSymbol={constantSymbol}
               label={label}
               value={value}
-              error={errors[fieldName]}
+              error={errors?.[fieldName]}
               name={fieldName}
               type={type === 'number' ? 'number' : 'text'}
               onChange={handleChange}
@@ -74,22 +72,24 @@ const useRenderField = ({ formState, errors, handleChange }) => {
         case 'file':
           return (
             <CreatePostFileUploader
-              maxCount={formState[fieldName]?.maxCount}
-              files={formState[fieldName]?.value}
-              acceptedFormats={formState[fieldName]?.acceptedFormats}
+              maxCount={field?.validation?.maxCount}
+              files={formState?.[fieldName]?.value}
+              acceptedFormats={field?.validation?.acceptedFormats}
               removeFile={(index) =>
                 handleChange({
                   target: {
                     name: fieldName,
                     value: [
-                      ...formState[fieldName]?.value.slice(0, index),
-                      ...formState[fieldName]?.value.slice(index + 1),
+                      ...formState?.[fieldName]?.value.slice(0, index),
+                      ...formState?.[fieldName]?.value.slice(index + 1),
                     ],
                   },
                 })
               }
               handleFile={(file) =>
-                handleChange({ target: { name: fieldName, value: [...formState[fieldName]?.value, ...file] } })
+                handleChange({
+                  target: { name: fieldName, value: [...(formState?.[fieldName]?.value || []), ...(file || [])] },
+                })
               }
             />
           );

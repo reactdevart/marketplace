@@ -3,7 +3,6 @@ import '@/modules/auth/components/features/ForgotPassword/ForgotPassword.scss';
 import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useForgotPasswordMutation } from '@/api/auth/forgotPasswordApi';
 import EmailInput from '@/components/widgets/EmailInput';
 import Form from '@/components/widgets/Form';
 import useFormValidator from '@/hooks/useFormValidator';
@@ -16,18 +15,12 @@ const ForgotPassword = () => {
   const [step, setStep] = useState(1);
 
   const { formState, errors, handleChange, validateForm } = useFormValidator(FORGOT_PASSWORD_FORM);
-  const [forgotPassword] = useForgotPasswordMutation();
 
   const handleSubmit = useCallback(
     async (e) => {
       e.preventDefault();
       if (validateForm()) {
         try {
-          const result = await forgotPassword({
-            email: formState.email.value,
-          })
-            .unwrap()
-            .then(() => setStep(2));
           console.log('Forgot password instructions sent:', result);
         } catch (err) {
           console.error('Failed to send forgot password instructions:', err);

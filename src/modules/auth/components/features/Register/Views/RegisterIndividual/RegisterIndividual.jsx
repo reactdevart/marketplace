@@ -2,7 +2,6 @@ import '@/modules/auth/components/features/Register/Views/RegisterIndividual/Reg
 
 import { useCallback } from 'react';
 
-import { useRegisterUserMutation } from '@/api/auth/registerApi.js';
 import Checkbox from '@/components/shared/Checkbox';
 import Input from '@/components/shared/Input';
 import ButtonFacebook from '@/components/widgets/ButtonFacebook';
@@ -18,21 +17,12 @@ import AuthOr from '@/modules/auth/components/shared/AuthOr';
 const RegisterIndividual = () => {
   const { formState, errors, handleChange, validateForm } = useFormValidator(REGISTER_INDIVIDUAL_FORM);
 
-  const [registerUser] = useRegisterUserMutation();
-
   const handleSubmit = useCallback(
     async (e) => {
       e.preventDefault();
       if (validateForm()) {
         e.preventDefault();
         try {
-          await registerUser({
-            first_name: formState.first_name.value,
-            last_name: formState.last_name.value,
-            email: formState.email.value,
-            password: formState.password.value,
-            password_confirmation: formState.password_confirmation.value,
-          }).unwrap();
           console.log('User registered successfully:');
         } catch (err) {
           console.error('Failed to register user:', err);

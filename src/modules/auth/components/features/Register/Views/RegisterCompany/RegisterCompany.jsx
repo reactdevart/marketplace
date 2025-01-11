@@ -2,7 +2,6 @@ import '@/modules/auth/components/features/Register/Views/RegisterCompany/Regist
 
 import { useCallback, useState } from 'react';
 
-import { useRegisterCompanyMutation } from '@/api/auth/registerCompanyApi';
 import Checkbox from '@/components/shared/Checkbox';
 import Input from '@/components/shared/Input';
 import EmailInput from '@/components/widgets/EmailInput';
@@ -19,8 +18,6 @@ import AuthUploadFileArea from '@/modules/auth/components/widgets/AuthUploadFile
 const RegisterCompany = () => {
   const [files, setFiles] = useState([]);
   const { formState, errors, handleChange, validateForm } = useFormValidator(REGISTER_COMPANY_FORM);
-
-  const [registerCompany] = useRegisterCompanyMutation();
 
   const handleSubmit = useCallback(
     async (e) => {
@@ -41,7 +38,6 @@ const RegisterCompany = () => {
             });
           }
 
-          const result = await registerCompany(formData).unwrap();
           console.log('Company registered successfully:', result);
         } catch (err) {
           console.error('Failed to register company:', err);

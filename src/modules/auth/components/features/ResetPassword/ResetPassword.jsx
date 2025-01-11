@@ -2,7 +2,6 @@ import '@/modules/auth/components/features/ResetPassword/ResetPassword.scss';
 
 import { useCallback } from 'react';
 
-import { useResetPasswordMutation } from '@/api/auth/resetPasswordApi';
 import EmailInput from '@/components/widgets/EmailInput';
 import Form from '@/components/widgets/Form';
 import PasswordInput from '@/components/widgets/PasswordInput';
@@ -13,17 +12,11 @@ import AuthTitleSubtitle from '@/modules/auth/components/shared/AuthTitleSubtitl
 const ResetPassword = () => {
   const { formState, errors, handleChange, validateForm } = useFormValidator(RESET_PASSWORD_FORM);
 
-  const [resetPassword] = useResetPasswordMutation();
-
   const handleSubmit = useCallback(
     async (e) => {
       e.preventDefault();
       if (validateForm()) {
         try {
-          const result = await resetPassword({
-            email: formState.email.value,
-            password: formState.password.value,
-          }).unwrap();
           console.log('Password reset successfully:', result);
         } catch (err) {
           console.error('Failed to reset password:', err);

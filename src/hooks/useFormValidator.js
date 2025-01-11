@@ -11,14 +11,14 @@ const useFormValidator = (initialState) => {
       let error = '';
       const numberPattern = /^-?\d*(\.\d+)?$/; // Allows integers and floating-point numbers
 
-      if (value === '' && formState[name].required) {
+      if (value === '' && formState?.[name]?.required) {
         error = `${toTitleCaseFromSnakeCase(name)} is required`;
       } else if (!numberPattern.test(value)) {
         error = `${toTitleCaseFromSnakeCase(name)} must be a valid number`;
-      } else if (formState[name].min && parseFloat(value) < formState[name].min) {
-        error = `${toTitleCaseFromSnakeCase(name)} must be at least ${formState[name].min}`;
-      } else if (formState[name].max && parseFloat(value) > formState[name].max) {
-        error = `${toTitleCaseFromSnakeCase(name)} must be less than or equal to ${formState[name].max}`;
+      } else if (formState?.[name]?.min && parseFloat(value) < formState?.[name]?.min) {
+        error = `${toTitleCaseFromSnakeCase(name)} must be at least ${formState?.[name]?.min}`;
+      } else if (formState?.[name]?.max && parseFloat(value) > formState?.[name]?.max) {
+        error = `${toTitleCaseFromSnakeCase(name)} must be less than or equal to ${formState?.[name]?.max}`;
       }
       return error;
     },
@@ -58,37 +58,37 @@ const useFormValidator = (initialState) => {
       let error = '';
 
       // Check if required
-      if (value === '' && formState[name].required) {
+      if (value === '' && formState?.[name]?.required) {
         error = `${toTitleCaseFromSnakeCase(name)} is required`;
       }
 
       // Check for minLength
-      if (formState[name].minLength && value.length < formState[name].minLength) {
-        error = `${toTitleCaseFromSnakeCase(name)} must be at least ${formState[name].minLength} characters long`;
+      if (formState?.[name]?.minLength && value?.length < formState?.[name]?.minLength) {
+        error = `${toTitleCaseFromSnakeCase(name)} must be at least ${formState?.[name]?.minLength} characters long`;
       }
 
       // Check for pattern match (like email regex)
-      if (formState[name].pattern && !formState[name].pattern.test(value)) {
+      if (formState?.[name]?.pattern && !formState?.[name]?.pattern.test(value)) {
         error = `${toTitleCaseFromSnakeCase(name)} is invalid`;
       }
 
       // Check if the value should be a number
-      if (formState[name].isNumber) {
+      if (formState?.[name]?.isNumber) {
         error = validateNumber(name, value);
       }
 
       // Check for confirm password
-      if (formState[name].isConfirmPassword && value !== formState.password.value) {
+      if (formState?.[name]?.isConfirmPassword && value !== formState?.password?.value) {
         error = 'Passwords do not match';
       }
 
       // Check for checkbox being checked
-      if (formState[name].isCheckbox && formState[name].required && !value) {
+      if (formState?.[name]?.isCheckbox && formState?.[name]?.required && !value) {
         error = `${toTitleCaseFromSnakeCase(name)} must be checked`;
       }
 
       // Password-specific validations
-      if (formState[name].isPassword) {
+      if (formState?.[name]?.isPassword) {
         error = validatePassword(name, value);
       }
 
@@ -108,7 +108,7 @@ const useFormValidator = (initialState) => {
       setFormState((prev) => ({
         ...prev,
         [name]: {
-          ...prev[name],
+          ...prev?.[name],
           value: newValue,
         },
       }));
@@ -120,12 +120,14 @@ const useFormValidator = (initialState) => {
 
   const validateForm = useCallback(() => {
     let valid = true;
-    Object.keys(formState).forEach((key) => {
-      validateField(key, formState[key].value);
-      if (errors[key]) {
-        valid = false;
-      }
-    });
+    if (formState && errors) {
+      Object.keys(formState).forEach((key) => {
+        validateField(key, formState?.[key]?.value);
+        if (errors?.[key]) {
+          valid = false;
+        }
+      });
+    }
     return valid;
   }, [formState, errors, validateField]);
 

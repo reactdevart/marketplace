@@ -9,26 +9,12 @@ import Skeleton from '@/components/shared/Skeleton';
 import { useGetGeneralCategoriesQuery } from '@/store/categories/categoriesApi';
 import { setSelectedGeneralCategory } from '@/store/categories/categoriesSlice';
 
-const GeneralCategoryList = () => {
+const GeneralCategoryList = ({ generalListData }) => {
   const [expandedCategory, setExpandedCategory] = useState(null);
   const dispatch = useDispatch();
   const selectedGeneralCategory = useSelector((state) => state.categories.selectedGeneralCategory);
   const selectedCategory = useSelector((state) => state.categories.selectedCategory);
-
-  const { data, error, isLoading } = useGetGeneralCategoriesQuery(undefined, {
-    selectFromResult: ({ data, ...other }) => {
-      return {
-        ...other,
-        data: {
-          data: data?.data.map((item) => ({
-            ...item,
-            hasChildren: !(item.name.toLowerCase().includes('home') || item.name.toLowerCase().includes('vehicles')),
-            name: item.name.split(' ')[0],
-          })),
-        },
-      };
-    },
-  });
+  const { data, error, isLoading } = generalListData;
 
   const handleSelectCategory = (category) => {
     if (expandedCategory?.id === category.id) {

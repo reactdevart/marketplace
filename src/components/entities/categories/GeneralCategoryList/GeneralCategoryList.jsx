@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import CategoryList from '@/components/entities/categories/CategoryList';
 import Skeleton from '@/components/shared/Skeleton';
-import { useGetGeneralCategoriesQuery } from '@/store/categories/categoriesApi';
 import { setSelectedGeneralCategory } from '@/store/categories/categoriesSlice';
 
 const GeneralCategoryList = ({ generalListData }) => {

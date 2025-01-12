@@ -65,7 +65,7 @@ const useRenderField = ({ formState, errors, handleChange }) => {
               height={54}
               label={label}
               key={fieldName}
-              onSelect={(option) => handleChange({ target: { name: fieldName, value: option.label } })}
+              onSelect={(option) => handleChange({ target: { name: fieldName, value: option.id } })}
               isOutsideClickEnabled
             />
           );
@@ -80,8 +80,8 @@ const useRenderField = ({ formState, errors, handleChange }) => {
                   target: {
                     name: fieldName,
                     value: [
-                      ...formState?.[fieldName]?.value.slice(0, index),
-                      ...formState?.[fieldName]?.value.slice(index + 1),
+                      ...(formState?.[fieldName]?.value || []).slice(0, index),
+                      ...(formState?.[fieldName]?.value || []).slice(index + 1),
                     ],
                   },
                 })

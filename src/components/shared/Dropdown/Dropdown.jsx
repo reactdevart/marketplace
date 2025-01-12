@@ -18,6 +18,7 @@ const Dropdown = ({
   withStar,
   fillValueFromMount = false,
   value = '',
+  optionKey = 'name',
 }) => {
   const dropdownRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -36,12 +37,12 @@ const Dropdown = ({
   // Ensure the initial selection has an ID, and reuse existing ID if possible
   const initialSelection = useMemo(() => {
     if (selectedOption) {
-      // Check if the sllectedOption exists in optionsWithId
-      const matchedOption = optionsWithId.find((option) => option.name === selectedOption.name);
+      // Check if the selectedOption exists in optionsWithId
+      const matchedOption = optionsWithId.find((option) => option[optionKey] === selectedOption[optionKey]);
       return matchedOption ? matchedOption : { ...selectedOption, id: selectedOption.id ?? generateUniqueId() };
     }
     return null;
-  }, [selectedOption, optionsWithId]);
+  }, [selectedOption, optionsWithId, optionKey]);
 
   const [currentSelection, setCurrentSelection] = useState(initialSelection);
 
@@ -49,18 +50,18 @@ const Dropdown = ({
 
   useEffect(() => {
     if (selectedOption) {
-      const matchedOption = optionsWithId.find((option) => option.name === selectedOption.name);
+      const matchedOption = optionsWithId.find((option) => option[optionKey] === selectedOption[optionKey]);
       setCurrentSelection(
         matchedOption ? matchedOption : { ...selectedOption, id: selectedOption.id ?? generateUniqueId() }
       );
     }
-  }, [selectedOption, optionsWithId]);
+  }, [selectedOption, optionsWithId, optionKey]);
 
   useEffect(() => {
     if (fillValueFromMount && currentSelection && !value) {
       onSelect(currentSelection);
     }
-  }, [fillValueFromMount, currentSelection, value]);
+  }, [fillValueFromMount, currentSelection, value, onSelect]);
 
   const handleSelect = (option) => {
     setCurrentSelection(option);
@@ -77,7 +78,7 @@ const Dropdown = ({
       )}
       <div style={{ height: height || 'auto' }} className="dropdown__header-body-wrapper">
         <div className="dropdown__header" onClick={() => setIsOpen((prev) => !prev)}>
-          <span className="dropdown__name">{currentSelection?.name || 'Select an option'}</span>
+          <span className="dropdown__name">{currentSelection?.[optionKey] || 'Select an option'}</span>
           <i className="dropdown__header-icon icon-arrow-down" />
         </div>
         {isOpen && (
@@ -90,7 +91,7 @@ const Dropdown = ({
                 key={option.id}
                 onClick={() => handleSelect(option)}
               >
-                <span className="dropdown__item">{option.name}</span>
+                <span className="dropdown__item">{option[optionKey]}</span>
                 {option.id === currentSelection?.id && <i className="dropdown__item-icon icon-check" />}
               </div>
             ))}

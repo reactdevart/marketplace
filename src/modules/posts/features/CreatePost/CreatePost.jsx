@@ -1,9 +1,11 @@
 import '@/modules/posts/features/CreatePost/CreatePost.scss';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { POST_TYPES } from '@/constants/create-post';
 import useFormValidator from '@/hooks/useFormValidator';
+import useRenderField from '@/hooks/useRenderField';
 import view from '@/modules/posts/features/CreatePost/views/view';
 import {
   useCreatePostMutation,
@@ -13,8 +15,6 @@ import {
 } from '@/store/categories/categoriesApi';
 import { setSelectedCategory } from '@/store/categories/categoriesSlice';
 import { extractFields, getInitialState } from '@/utils/formUtils';
-import { useDispatch, useSelector } from 'react-redux';
-import useRenderField from '@/hooks/useRenderField';
 
 const CreatePost = () => {
   const [step] = useState(1);
@@ -53,10 +53,8 @@ const CreatePost = () => {
   const ctaegoryForm = POST_TYPES?.[selectedGeneralCategory?.name]?.subcategories?.[selectedCategory?.name];
   const collectionOfFields = useMemo(() => ctaegoryForm && extractFields(ctaegoryForm), [ctaegoryForm]);
   const initialState = useMemo(() => collectionOfFields && getInitialState(collectionOfFields), [collectionOfFields]);
-  const { formState, errors, handleChange, validateForm } = useFormValidator(initialState);
+  const { formState, errors, handleChange } = useFormValidator(initialState);
   const renderField = useRenderField({ formState, errors, handleChange });
-
-  console.log(formState);
 
   useEffect(() => {
     if (isCategoriesSuccess && categories?.data?.length === 1 && categories?.data[0]?.name === 'All') {
@@ -89,16 +87,36 @@ const CreatePost = () => {
     async (e) => {
       e.preventDefault();
       const form = new FormData();
-      form.append('general_category_id', selectedGeneralCategory.id);
-      form.append('category_id', selectedCategory.id);
-      form.append('subcategory_id', formState.subcategory.value.id);
-      form.append('location_id', '1');
-      form.append('options[1]', formState.condition.value.id);
-      form.append('title', formState.postTitle.value);
-      form.append('price', formState?.price?.value);
+      if (selectedGeneralCategory?.id) {
+        form.append('general_category_id', selectedGeneralCategory.id);
+      }
+      if (selectedCategory?.id) {
+        form.append('category_id', selectedCategory.id);
+      }
+      if (formState?.subcategory?.value?.id) {
+        form.append('subcategory_id', formState.subcategory.value.id);
+      }
+      if (formState?.location?.id) {
+        form.append('location_id', formState.location.id);
+      }
+      if (formState?.condition?.value?.id) {
+        form.append('options[1]', formState.condition.value.id);
+      }
+      if (formState?.postTitle?.value) {
+        form.append('title', formState.postTitle.value);
+      }
+      if (formState?.price?.value) {
+        form.append('price', formState.price.value);
+      }
       form.append('settings[phone]', '(555) 555-1234');
-      form.append('description', formState?.description?.value);
-      form.append('images[1]', formState?.pictures?.value[0]);
+      if (formState?.description?.value) {
+        form.append('description', formState.description.value);
+      }
+      if (formState?.pictures?.value) {
+        formState.pictures.value.forEach((picture, index) => {
+          form.append(`images[${index + 1}]`, picture);
+        });
+      }
 
       try {
         await createPost(form).unwrap();
@@ -107,7 +125,7 @@ const CreatePost = () => {
         console.error('Failed to create post:', err);
       }
     },
-    [formState]
+    [formState, selectedCategory.id, selectedGeneralCategory.id, createPost]
   );
 
   return (

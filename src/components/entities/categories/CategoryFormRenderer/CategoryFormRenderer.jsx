@@ -3,7 +3,6 @@ import '@/components/entities/categories/CategoryFormRenderer/CategoryFormRender
 import Button from '@/components/shared/Button';
 
 const CategoryFormRenderer = ({ renderSection, handleFormSubmit }) => {
-  console.log('CategoryFormRenderer', handleFormSubmit);
   return (
     <form className="category-form-renderer" onSubmit={handleFormSubmit}>
       <div className="category-form-renderer__render-section-wrapper">{renderSection}</div>

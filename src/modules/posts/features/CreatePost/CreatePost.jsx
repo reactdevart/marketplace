@@ -108,7 +108,9 @@ const CreatePost = () => {
       if (formState?.price?.value) {
         form.append('price', formState.price.value);
       }
-      form.append('settings[phone]', '(555) 555-1234');
+      if (formState?.phoneNumber?.value) {
+        form.append('settings[phone]', formState.phoneNumber.value);
+      }
       if (formState?.description?.value) {
         form.append('description', formState.description.value);
       }
@@ -125,7 +127,7 @@ const CreatePost = () => {
         console.error('Failed to create post:', err);
       }
     },
-    [formState, selectedCategory.id, selectedGeneralCategory.id, createPost]
+    [formState, selectedCategory?.id, selectedGeneralCategory?.id, createPost]
   );
 
   return (

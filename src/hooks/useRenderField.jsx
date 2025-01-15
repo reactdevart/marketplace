@@ -4,6 +4,7 @@ import Input from '@/components/shared/Input';
 import CreatePostFileUploader from '@/components/widgets/CreatePostFileUploader';
 import DropdownSubCategory from '@/components/widgets/DropdownSubCategory';
 import Location from '@/components/widgets/Location';
+import PhoneInput from '@/components/widgets/PhoneInput';
 import SubCategoryOptionsRadio from '@/components/widgets/SubCategoryOptionsRadio';
 
 const useRenderField = ({ formState, errors, handleChange }) => {
@@ -28,6 +29,23 @@ const useRenderField = ({ formState, errors, handleChange }) => {
               error={errors?.[fieldName]}
               name={fieldName}
               type={type === 'number' ? 'number' : 'text'}
+              onChange={handleChange}
+              animatedPlaceholder
+            />
+          );
+
+        case 'phoneNumber':
+          return (
+            <PhoneInput
+              withStar={field?.validation?.required}
+              required={field?.validation?.required}
+              style={{ height: 54 }}
+              key={fieldName}
+              constantSymbol={constantSymbol}
+              label={label}
+              value={value}
+              error={errors?.[fieldName]}
+              name={fieldName}
               onChange={handleChange}
               animatedPlaceholder
             />

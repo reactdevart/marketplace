@@ -98,22 +98,12 @@ export const POST_TYPES = {
             {
               label: 'Phone Number',
               fieldName: 'phoneNumber',
-              type: 'number',
+              type: 'phoneNumber',
               maxCount: 2,
               requiredFirst: true,
               validation: {
                 min: 5,
                 isNumber: true,
-              },
-            },
-            {
-              label: 'Web and Social',
-              fieldName: 'webAndSocial',
-              type: 'text',
-              maxCount: 2,
-              requiredFirst: true,
-              validation: {
-                min: 5,
               },
             },
           ],

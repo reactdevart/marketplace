@@ -12,41 +12,46 @@
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   position: relative;
+
   &--gradient {
     font-weight: 600;
     background: linear-gradient(90.88deg, var(--primary-1) 0%, var(--primary-2) 100%);
     color: var(--white-color);
+
     &:hover {
       background: linear-gradient(90.88deg, var(--primary-2) 0%, var(--primary-1) 100%);
     }
   }
+
   &--ghost {
     background-color: transparent;
     border: 1px solid var(--lines-color);
     color: var(--text-color-1);
+
     &:hover {
       color: var(--text-color-2);
     }
   }
+
   &--secondary {
     background-color: transparent;
     border: 1px solid var(--primary-1);
     color: var(--primary-1);
     font-weight: 500;
+
     &:hover {
       border: 1px solid var(--primary-2);
       color: var(--primary-2);
     }
   }
+
   &:disabled {
     opacity: 0.5;
     pointer-events: none;
   }
+
   &__spinner-wrapper {
-    position: absolute;
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
+    margin-left: 14px;
     display: flex;
     align-items: center;
     justify-content: center;

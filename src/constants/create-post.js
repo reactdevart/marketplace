@@ -103,7 +103,6 @@ export const POST_TYPES = {
               requiredFirst: true,
               validation: {
                 min: 5,
-                isNumber: true,
               },
             },
           ],

@@ -3,6 +3,8 @@ import '@/modules/posts/features/CreatePost/CreatePost.scss';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import Button from '@/components/shared/Button';
+import OverlayPending from '@/components/shared/OverlayPending';
 import { POST_TYPES } from '@/constants/create-post';
 import useFormValidator from '@/hooks/useFormValidator';
 import useRenderField from '@/hooks/useRenderField';
@@ -14,12 +16,13 @@ import {
   useGetSubcategoriesForCategoryIdQuery,
 } from '@/store/categories/categoriesApi';
 import { setSelectedCategory } from '@/store/categories/categoriesSlice';
+import { addToast } from '@/store/toaster/toasterSlice';
 import { extractFields, getInitialState } from '@/utils/formUtils';
 
 const CreatePost = () => {
-  const [step] = useState(1);
+  const [step, setStep] = useState(1);
   const dispatch = useDispatch();
-  const [createPost] = useCreatePostMutation();
+  const [createPost, { isLoading: isCreatePostPending }] = useCreatePostMutation();
 
   const selectedGeneralCategory = useSelector((state) => state.categories.selectedGeneralCategory);
   const selectedCategory = useSelector((state) => state.categories.selectedCategory);
@@ -64,25 +67,6 @@ const CreatePost = () => {
 
   const Component = view[step].component;
 
-  const renderSection = useMemo(
-    () =>
-      ctaegoryForm &&
-      Object.values(ctaegoryForm).map(({ label, fields, direction }, index) => (
-        <div className="category-form-renderer__section-renderer" key={index}>
-          <span className="category-form-renderer__section-label">{label}</span>
-          <div
-            style={{
-              gridTemplateColumns: `repeat(${direction === 'row' ? '2' : '1'}, 1fr)`,
-            }}
-            className="category-form-renderer__fields"
-          >
-            {fields.map((field) => renderField(field))}
-          </div>
-        </div>
-      )),
-    [ctaegoryForm, renderField]
-  );
-
   const handleFormSubmit = useCallback(
     async (e) => {
       e.preventDefault();
@@ -121,13 +105,53 @@ const CreatePost = () => {
       }
 
       try {
-        await createPost(form).unwrap();
-        alert('Post created successfully!');
+        await createPost(form)
+          .unwrap()
+          .then(() => {
+            setStep(2);
+            dispatch(addToast({ message: 'Post created successfully!', type: 'success' }));
+          });
       } catch (err) {
-        console.error('Failed to create post:', err);
+        if (err?.data?.message) {
+          dispatch(addToast({ message: err.data.message, type: 'error' }));
+        }
       }
     },
-    [formState, selectedCategory?.id, selectedGeneralCategory?.id, createPost]
+    [formState, selectedCategory?.id, selectedGeneralCategory?.id, createPost, dispatch]
+  );
+
+  const renderSection = useMemo(
+    () =>
+      ctaegoryForm &&
+      selectedCategory && (
+        <OverlayPending spinnerSize={110} pending={isCreatePostPending}>
+          <div className="create-post__form-renderer-wrapper">
+            <form className="create-post__form-renderer" onSubmit={handleFormSubmit}>
+              <div className="create-post__form-renderer-section-wrapper">
+                {Object.values(ctaegoryForm).map(({ label, fields, direction }, index) => (
+                  <div className="create-post__form-renderer-section" key={index}>
+                    <span className="create-post__form-renderer-section-label">{label}</span>
+                    <div
+                      style={{
+                        gridTemplateColumns: `repeat(${direction === 'row' ? '2' : '1'}, 1fr)`,
+                      }}
+                      className="create-post__form-renderer-fields"
+                    >
+                      {fields.map((field) => renderField(field))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="create-post__button-wrapper">
+                <Button pending={isCreatePostPending} type="submit" variant="gradient">
+                  Create Post
+                </Button>
+              </div>
+            </form>
+          </div>
+        </OverlayPending>
+      ),
+    [ctaegoryForm, selectedCategory, renderField, handleFormSubmit, isCreatePostPending]
   );
 
   return (
@@ -137,11 +161,7 @@ const CreatePost = () => {
         <span className="create-post__steps">{`Step ${step}/2`}</span>
       </div>
       <div className="create-post__step-wrapper">
-        <Component
-          renderSection={renderSection}
-          handleFormSubmit={handleFormSubmit}
-          generalListData={generalListData}
-        />
+        <Component renderSection={renderSection} generalListData={generalListData} />
       </div>
     </div>
   );

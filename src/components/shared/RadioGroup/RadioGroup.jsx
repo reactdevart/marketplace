@@ -1,4 +1,5 @@
 import '@/components/shared/RadioGroup/RadioGroup.scss';
+
 import { useEffect } from 'react';
 
 const RadioGroup = ({
@@ -17,7 +18,7 @@ const RadioGroup = ({
     if (!value && selectedValue) {
       onChange(selectedValue);
     }
-  }, [value, selectedValue]);
+  }, [value, selectedValue, onChange]);
   return (
     <div className="radio-group">
       {label && (

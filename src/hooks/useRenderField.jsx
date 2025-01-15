@@ -62,6 +62,7 @@ const useRenderField = ({ formState, errors, handleChange }) => {
                     withStar={field?.validation?.required}
                     required={field?.validation?.required}
                     label={label}
+                    key={fieldName}
                     name={fieldName}
                     value={value.name}
                     onChange={(value) =>
@@ -93,6 +94,7 @@ const useRenderField = ({ formState, errors, handleChange }) => {
               maxCount={field?.validation?.maxCount}
               files={formState?.[fieldName]?.value}
               acceptedFormats={field?.validation?.acceptedFormats}
+              key={fieldName}
               removeFile={(index) =>
                 handleChange({
                   target: {

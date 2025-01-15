@@ -40,9 +40,7 @@ export const getSubcategoriesData = createDraftSafeSelector(
   (data) => data
 );
 
-export const getSubcategoriesoptions = createDraftSafeSelector(getSubcategoriesData, (data) =>
-  data?.map((item) => ({ label: item.name, name: item.name, id: item.id }))
-);
+export const getSubcategoriesOptions = createDraftSafeSelector(getSubcategoriesData, (data) => data);
 
 export const getSelectedSubcategory = createDraftSafeSelector(
   (state) => state.categories.subcategory?.selectedSubcategory,

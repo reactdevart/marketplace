@@ -96,8 +96,8 @@ const CreatePost = () => {
       if (formState?.subcategory?.value?.id) {
         form.append('subcategory_id', formState.subcategory.value.id);
       }
-      if (formState?.location?.id) {
-        form.append('location_id', formState.location.id);
+      if (formState?.location?.value) {
+        form.append('location_id', formState.location.value);
       }
       if (formState?.condition?.value?.id) {
         form.append('options[1]', formState.condition.value.id);

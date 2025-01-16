@@ -35,16 +35,26 @@ const categoriesSlice = createSlice({
 
 export const { setSelectedGeneralCategory, setSelectedCategory, setSelectedSubcategory } = categoriesSlice.actions;
 
-export const getSubcategoriesData = createDraftSafeSelector(
-  (state) => state.categories.subcategory?.data,
-  (data) => data
+const selectCategoriesState = (state) => state.categories;
+const selectSubcategoryState = (state) => state.categories.subcategory;
+
+export const getSelectedGeneralCategory = createDraftSafeSelector(
+  selectCategoriesState,
+  (categories) => categories.selectedGeneralCategory
+);
+
+export const getSelectedCategory = createDraftSafeSelector(
+  selectCategoriesState,
+  (categories) => categories.selectedCategory
+);
+
+export const getSubcategoriesData = createDraftSafeSelector(selectSubcategoryState, (subcategory) => subcategory?.data);
+
+export const getSelectedSubcategory = createDraftSafeSelector(
+  selectSubcategoryState,
+  (subcategory) => subcategory?.selectedSubcategory
 );
 
 export const getSubcategoriesOptions = createDraftSafeSelector(getSubcategoriesData, (data) => data);
-
-export const getSelectedSubcategory = createDraftSafeSelector(
-  (state) => state.categories.subcategory?.selectedSubcategory,
-  (selectedSubcategory) => selectedSubcategory
-);
 
 export const categoriesReducer = categoriesSlice.reducer;

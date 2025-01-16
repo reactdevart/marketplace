@@ -6,13 +6,17 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import CategoryList from '@/components/entities/categories/CategoryList';
 import Skeleton from '@/components/shared/Skeleton';
-import { setSelectedGeneralCategory } from '@/store/categories/categoriesSlice';
+import {
+  getSelectedCategory,
+  getSelectedGeneralCategory,
+  setSelectedGeneralCategory,
+} from '@/store/categories/categoriesSlice';
 
 const GeneralCategoryList = ({ generalListData }) => {
   const [expandedCategory, setExpandedCategory] = useState(null);
   const dispatch = useDispatch();
-  const selectedGeneralCategory = useSelector((state) => state.categories.selectedGeneralCategory);
-  const selectedCategory = useSelector((state) => state.categories.selectedCategory);
+  const selectedGeneralCategory = useSelector(getSelectedGeneralCategory);
+  const selectedCategory = useSelector(getSelectedCategory);
   const { data, error, isLoading } = generalListData;
 
   const handleSelectCategory = (category) => {

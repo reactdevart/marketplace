@@ -1,5 +1,5 @@
-// store/toasterSlice.js
 import { createSlice } from '@reduxjs/toolkit';
+import { createDraftSafeSelector } from '@reduxjs/toolkit';
 
 let idCounter = 0;
 
@@ -17,6 +17,11 @@ const toasterSlice = createSlice({
     },
   },
 });
+
+export const selectToasts = createDraftSafeSelector(
+  (state) => state.toaster,
+  (toaster) => toaster
+);
 
 export const { addToast, removeToast } = toasterSlice.actions;
 export const toasterReducer = toasterSlice.reducer;

@@ -4,10 +4,10 @@ import { memo, useCallback, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import PortalWrapper from '@/components/shared/PortalWrapper/PortalWrapper';
-import { removeToast } from '@/store/toaster/toasterSlice';
+import { removeToast, selectToasts } from '@/store/toaster/toasterSlice';
 
 const Toaster = () => {
-  const toasts = useSelector((state) => state.toaster);
+  const toasts = useSelector(selectToasts);
   const [slideOutToasts, setSlideOutToasts] = useState(new Set());
   const dispatch = useDispatch();
 

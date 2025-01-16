@@ -15,7 +15,11 @@ import {
   useGetGeneralCategoriesQuery,
   useGetSubcategoriesForCategoryIdQuery,
 } from '@/store/categories/categoriesApi';
-import { setSelectedCategory } from '@/store/categories/categoriesSlice';
+import {
+  getSelectedCategory,
+  getSelectedGeneralCategory,
+  setSelectedCategory,
+} from '@/store/categories/categoriesSlice';
 import { addToast } from '@/store/toaster/toasterSlice';
 import { extractFields, getInitialState } from '@/utils/formUtils';
 
@@ -24,8 +28,8 @@ const CreatePost = () => {
   const dispatch = useDispatch();
   const [createPost, { isLoading: isCreatePostPending }] = useCreatePostMutation();
 
-  const selectedGeneralCategory = useSelector((state) => state.categories.selectedGeneralCategory);
-  const selectedCategory = useSelector((state) => state.categories.selectedCategory);
+  const selectedGeneralCategory = useSelector(getSelectedGeneralCategory);
+  const selectedCategory = useSelector(getSelectedCategory);
 
   const generalListData = useGetGeneralCategoriesQuery(undefined, {
     selectFromResult: ({ data, ...other }) => {

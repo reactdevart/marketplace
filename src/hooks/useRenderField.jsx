@@ -126,9 +126,10 @@ const useRenderField = ({ formState, errors, handleChange }) => {
                     height={54}
                     label={label}
                     key={fieldName}
-                    onSelect={(option) =>
-                      handleChange({ target: { name: fieldName, value: { name: option.label, id: option.id } } })
-                    }
+                    onSelect={(option) => {
+                      console.log(option);
+                      handleChange({ target: { name: fieldName, value: { name: option.name, id: option.id } } });
+                    }}
                     value={value}
                     fillValueFromMount
                     isOutsideClickEnabled

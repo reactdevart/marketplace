@@ -27,3 +27,27 @@ export const decodeJWT = (token) => {
   const decodedPayload = atob(payload);
   return JSON.parse(decodedPayload);
 };
+
+export const currencyFormatter = (amount, options = {}) => {
+  const { currencySymbol = '$', decimalPlaces = 1, useGrouping = true } = options;
+
+  if (typeof amount !== 'number') {
+    throw new TypeError('Amount must be a number');
+  }
+
+  // Check if the number has decimal places
+  const hasDecimalPlaces = amount % 1 !== 0;
+  const effectiveDecimalPlaces = hasDecimalPlaces ? decimalPlaces : 0;
+
+  // Format the number to the specified decimal places
+  const fixedAmount = amount.toFixed(effectiveDecimalPlaces);
+
+  // Split into integer and decimal parts
+  const [integerPart, decimalPart] = fixedAmount.split('.');
+
+  // Format integer part with grouping (e.g., 1,234,567)
+  const formattedInteger = useGrouping ? integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',') : integerPart;
+
+  // Combine the formatted integer and decimal part
+  return decimalPart ? `${currencySymbol}${formattedInteger}.${decimalPart}` : `${currencySymbol}${formattedInteger}`;
+};

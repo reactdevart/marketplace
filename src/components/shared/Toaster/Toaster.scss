@@ -5,7 +5,7 @@
 
 .toaster {
   position: fixed;
-  width: 290px;
+  min-width: 340px;
   top: 20px;
   right: 20px;
   display: flex;
@@ -29,6 +29,7 @@
       border-color: rgba(72, 193, 181, 1);
       background: rgba(246, 255, 249, 1);
     }
+
     &--error {
       border-color: rgba(244, 176, 161, 1);
       background: rgba(255, 245, 243, 1);
@@ -53,6 +54,7 @@
     transform: translateX(100%);
     opacity: 0;
   }
+
   to {
     transform: translateX(0);
     opacity: 1;
@@ -64,6 +66,7 @@
     transform: translateX(0);
     opacity: 1;
   }
+
   to {
     transform: translateX(100%);
     opacity: 0;

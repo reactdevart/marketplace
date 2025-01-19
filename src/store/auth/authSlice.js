@@ -8,9 +8,9 @@ const initialState = {
 
 const credentials = JSON.parse(localStorage.getItem('auth'));
 
-if (credentials && credentials?.accessToken && credentials?.expiresIn) {
-  const expired = isExpired(+decodeJWT(credentials?.accessToken)?.iat, +credentials?.expiresIn);
-  expired ? localStorage.removeItem('auth') : (initialState.user = credentials?.user);
+if (credentials && credentials?.access_token && credentials?.expires_in) {
+  const expired = isExpired(+decodeJWT(credentials.access_token)?.iat, +credentials.expires_in);
+  expired ? localStorage.removeItem('auth') : (initialState.user = credentials);
 }
 
 const authSlice = createSlice({
@@ -18,15 +18,12 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setCredentials: (state, action) => {
-      const { user = null, access_token = null, refresh_token = null, expires_in = null } = action.payload;
-      localStorage.setItem(
-        'auth',
-        JSON.stringify({ user, accessToken: access_token, refreshToken: refresh_token, expiresIn: expires_in })
-      );
-      state.user = user;
+      localStorage.setItem('auth', JSON.stringify(action.payload));
+      state.user = action.payload;
     },
     logout: (state) => {
       state.user = null;
+      localStorage.removeItem('auth');
     },
   },
 });

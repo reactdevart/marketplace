@@ -86,6 +86,7 @@ const useRenderField = ({ formState, errors, handleChange }) => {
               key={fieldName}
               onSelect={(option) => handleChange({ target: { name: fieldName, value: option.id } })}
               isOutsideClickEnabled
+              selectedOnMount={formState?.[fieldName]?.value}
             />
           );
         case 'file':
@@ -127,11 +128,9 @@ const useRenderField = ({ formState, errors, handleChange }) => {
                     label={label}
                     key={fieldName}
                     onSelect={(option) => {
-                      console.log(option);
                       handleChange({ target: { name: fieldName, value: { name: option.name, id: option.id } } });
                     }}
-                    value={value}
-                    fillValueFromMount
+                    selectedOnMount={formState?.[fieldName]?.value}
                     isOutsideClickEnabled
                   />
                 );

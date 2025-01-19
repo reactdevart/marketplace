@@ -1,11 +1,13 @@
 import '@/components/shared/Header/Header.scss';
 
 import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import Button from '@/components/shared/Button';
 import Logo from '@/components/shared/Logo';
 import Search from '@/components/widgets/Search';
+import { logout } from '@/store/auth/authSlice';
 
 const GENERAL_CATEGORIES = [
   { value: 'Vehicles', icon: 'icon-car' },
@@ -19,6 +21,7 @@ const Header = forwardRef((_, ref) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const localRef = useRef(null);
+  const dispatch = useDispatch();
 
   const handleNavigate = useCallback(
     (route) => {
@@ -82,6 +85,11 @@ const Header = forwardRef((_, ref) => {
                 <Button onClick={() => handleNavigate('/posts/create-post')} variant="gradient">
                   <span>+</span>
                   <span>Create a Post</span>
+                </Button>
+              </div>
+              <div className="header__button-wrapper">
+                <Button onClick={() => dispatch(logout())} variant="secondary">
+                  Logout
                 </Button>
               </div>
             </div>

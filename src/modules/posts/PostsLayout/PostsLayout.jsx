@@ -9,7 +9,7 @@ const PostsLayout = () => {
     <div className="posts-container">
       <div className="posts-layout">
         <Routes>
-          <Route path="create-post" element={<CreatePost />} />
+          <Route path="create-post/*" element={<CreatePost />} />
         </Routes>
       </div>
     </div>

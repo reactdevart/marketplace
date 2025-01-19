@@ -31,7 +31,7 @@ const Login = () => {
             password: formState.password.value,
           }).unwrap();
           if (result?.access_token && result?.refresh_token) {
-            dispatch(setCredentials({ ...result, user: { email: formState.email.value } }));
+            dispatch(setCredentials({ ...result, email: formState.email.value }));
           }
         } catch (err) {
           dispatch(addToast({ message: err.data.message, type: 'error' }));

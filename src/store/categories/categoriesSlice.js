@@ -57,4 +57,19 @@ export const getSelectedSubcategory = createDraftSafeSelector(
 
 export const getSubcategoriesOptions = createDraftSafeSelector(getSubcategoriesData, (data) => data);
 
+export const getSelectedSubcategoryOptions = createDraftSafeSelector(getSelectedSubcategory, (selectedSubcategory) => {
+  const optionTitles = selectedSubcategory?.optionTitles || [];
+  const opts = optionTitles?.[0] || {};
+  if (Object.keys(opts).length > 0 && opts?.options?.length) {
+    return {
+      ...opts,
+      options: opts.options.map((item) => ({
+        ...item,
+        label: item?.name,
+      })),
+    };
+  }
+  return null;
+});
+
 export const categoriesReducer = categoriesSlice.reducer;

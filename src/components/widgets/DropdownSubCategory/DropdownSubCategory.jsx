@@ -1,14 +1,43 @@
 import '@/components/widgets/DropdownSubCategory/DropdownSubCategory.scss';
 
-import { useCallback } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Dropdown from '@/components/shared/Dropdown';
-import { getSubcategoriesOptions, setSelectedSubcategory } from '@/store/categories/categoriesSlice';
+import {
+  getSelectedSubcategory,
+  getSubcategoriesData,
+  getSubcategoriesOptions,
+  setSelectedSubcategory,
+} from '@/store/categories/categoriesSlice';
 
-const DropdownSubCategory = ({ onSelect, ...restProps }) => {
+const DropdownSubCategory = ({ onSelect, selectedOnMount, ...restProps }) => {
   const options = useSelector(getSubcategoriesOptions);
+  const subcategoriesData = useSelector(getSubcategoriesData);
+  const selectedSubcategory = useSelector(getSelectedSubcategory);
   const dispatch = useDispatch();
+  const selected = useMemo(
+    () => options?.find((item) => Number(item?.id) === Number(selectedOnMount?.id)),
+    [options, selectedOnMount?.id]
+  );
+
+  useEffect(() => {
+    console.log({
+      selectedOnMount,
+      subcategoriesData,
+      selectedSubcategory,
+    });
+    if (
+      subcategoriesData?.length &&
+      selectedOnMount &&
+      selectedSubcategory &&
+      Number(selectedSubcategory?.id) !== Number(selectedOnMount?.id)
+    ) {
+      dispatch(
+        setSelectedSubcategory(subcategoriesData.find((item) => Number(item.id) === Number(selectedOnMount.id)))
+      );
+    }
+  }, [subcategoriesData, dispatch, selectedOnMount, selectedSubcategory]);
 
   const handleSelect = useCallback(
     (option) => {
@@ -23,7 +52,7 @@ const DropdownSubCategory = ({ onSelect, ...restProps }) => {
     <Dropdown
       onSelect={handleSelect}
       options={options}
-      selectedOption={options?.[0]}
+      selectedOption={selected ?? options?.[0]}
       {...restProps}
       className="dropdown-sub-category"
     />

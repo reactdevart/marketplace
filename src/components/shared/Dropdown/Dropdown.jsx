@@ -16,52 +16,35 @@ const Dropdown = ({
   height,
   required,
   withStar,
-  fillValueFromMount = false,
-  value = '',
   optionKey = 'name',
 }) => {
   const dropdownRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
+  // Memoize options with unique IDs
   const optionsWithId = useMemo(
     () =>
-      Array.isArray(options)
-        ? options.map((option) => ({
-            ...option,
-            id: option.id ?? generateUniqueId(),
-          }))
-        : [],
+      options?.map((option) => ({
+        ...option,
+        id: option.id ?? generateUniqueId(),
+      })),
     [options]
   );
 
-  // Ensure the initial selection has an ID, and reuse existing ID if possible
-  const initialSelection = useMemo(() => {
-    if (selectedOption) {
-      // Check if the selectedOption exists in optionsWithId
-      const matchedOption = optionsWithId.find((option) => option[optionKey] === selectedOption[optionKey]);
-      return matchedOption ? matchedOption : { ...selectedOption, id: selectedOption.id ?? generateUniqueId() };
-    }
-    return null;
-  }, [selectedOption, optionsWithId, optionKey]);
+  // Only update current selection if the selectedOption actually changes
+  const [currentSelection, setCurrentSelection] = useState(() => {
+    const matchedOption = optionsWithId?.find((option) => option[optionKey] === selectedOption?.[optionKey]);
+    return matchedOption || { ...selectedOption, id: selectedOption?.id ?? generateUniqueId() };
+  });
 
-  const [currentSelection, setCurrentSelection] = useState(initialSelection);
+  useEffect(() => {
+    const matchedOption = optionsWithId?.find((option) => option[optionKey] === selectedOption?.[optionKey]);
+    if (matchedOption && matchedOption.id !== currentSelection?.id) {
+      setCurrentSelection(matchedOption);
+    }
+  }, [selectedOption, optionsWithId, optionKey, currentSelection]);
 
   useOutsideClick(dropdownRef, () => setIsOpen(false), isOutsideClickEnabled);
-
-  useEffect(() => {
-    if (selectedOption) {
-      const matchedOption = optionsWithId.find((option) => option[optionKey] === selectedOption[optionKey]);
-      setCurrentSelection(
-        matchedOption ? matchedOption : { ...selectedOption, id: selectedOption.id ?? generateUniqueId() }
-      );
-    }
-  }, [selectedOption, optionsWithId, optionKey]);
-
-  useEffect(() => {
-    if (fillValueFromMount && currentSelection && !value) {
-      onSelect(currentSelection);
-    }
-  }, [fillValueFromMount, currentSelection, value, onSelect]);
 
   const handleSelect = (option) => {
     setCurrentSelection(option);

@@ -1,23 +1,34 @@
 import '@/components/entities/categories/GeneralCategoryList/GeneralCategoryList.scss';
 
 import classNames from 'classnames';
-import { useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import CategoryList from '@/components/entities/categories/CategoryList';
 import Skeleton from '@/components/shared/Skeleton';
+import { useGetCategoriesAndSubcategoriesQuery } from '@/hooks/useGetCategoriesAndSubcategoriesQuery';
 import {
   getSelectedCategory,
   getSelectedGeneralCategory,
+  setSelectedCategory,
   setSelectedGeneralCategory,
 } from '@/store/categories/categoriesSlice';
 
-const GeneralCategoryList = ({ generalListData }) => {
+const GeneralCategoryList = () => {
   const [expandedCategory, setExpandedCategory] = useState(null);
   const dispatch = useDispatch();
   const selectedGeneralCategory = useSelector(getSelectedGeneralCategory);
   const selectedCategory = useSelector(getSelectedCategory);
-  const { data, error, isLoading } = generalListData;
+  const {
+    generalListData: { data, error, isLoading },
+    categories: { data: categories, isSuccess: isCategoriesSuccess },
+  } = useGetCategoriesAndSubcategoriesQuery(selectedGeneralCategory?.id, selectedCategory?.id);
+
+  useEffect(() => {
+    if (isCategoriesSuccess && categories?.data?.length === 1 && categories?.data[0]?.name === 'All') {
+      dispatch(setSelectedCategory(categories.data[0]));
+    }
+  }, [isCategoriesSuccess, categories?.data, dispatch]);
 
   const handleSelectCategory = (category) => {
     if (expandedCategory?.id === category.id) {
@@ -75,4 +86,4 @@ const GeneralCategoryList = ({ generalListData }) => {
   );
 };
 
-export default GeneralCategoryList;
+export default memo(GeneralCategoryList);

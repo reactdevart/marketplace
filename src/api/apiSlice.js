@@ -6,7 +6,7 @@ const baseQuery = fetchBaseQuery({
   baseUrl: API_BASE_URL,
   prepareHeaders: (headers, { getState }) => {
     headers.set('Accept', COMMON_HEADERS['Accept']);
-    const token = getState().auth.token;
+    const token = getState().auth.user.access_token;
     if (token) {
       headers.set('Authorization', `Bearer ${token}`);
     }

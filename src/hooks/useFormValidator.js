@@ -1,15 +1,25 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { toTitleCaseFromSnakeCase } from '@/utils/common';
+import { getImages, mergeImagesWithExistingState, updateFormState } from '@/utils/imageUtil';
 
 const useFormValidator = (initialState) => {
-  const [formState, setFormState] = useState(initialState);
+  const formStateFromStorage = JSON.parse(localStorage.getItem('formState'));
+  const [formState, setFormState] = useState(formStateFromStorage || initialState);
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    getImages().then((images) => {
+      if (images.length) {
+        updateFormState(setFormState, (data) => mergeImagesWithExistingState(data, images));
+      }
+    });
+  }, []);
 
   const validateNumber = useCallback(
     (name, value) => {
       let error = '';
-      const numberPattern = /^-?\d*(\.\d+)?$/; // Allows integers and floating-point numbers
+      const numberPattern = /^-?\d*(\.\d+)?$/;
 
       if (value === '' && formState?.[name]?.required) {
         error = `${toTitleCaseFromSnakeCase(name)} is required`;

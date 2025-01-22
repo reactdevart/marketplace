@@ -31,15 +31,7 @@ const RegisterIndividual = () => {
         console.log('Form has errors.');
       }
     },
-    [
-      validateForm,
-      formState.first_name.value,
-      formState.last_name.value,
-      formState.email.value,
-      formState.password.value,
-      formState.password_confirmation.value,
-      registerUser,
-    ]
+    [validateForm]
   );
 
   return (

@@ -12,7 +12,6 @@ const store = configureStore({
     toaster: toasterReducer,
     auth: authReducer,
   },
-  devTools: false,
 
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),
 });

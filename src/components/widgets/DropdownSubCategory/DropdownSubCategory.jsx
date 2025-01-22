@@ -22,11 +22,6 @@ const DropdownSubCategory = ({ onSelect, selectedOnMount, ...restProps }) => {
   );
 
   useEffect(() => {
-    console.log({
-      selectedOnMount,
-      subcategoriesData,
-      selectedSubcategory,
-    });
     if (
       subcategoriesData?.length &&
       selectedOnMount &&

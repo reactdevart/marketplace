@@ -31,14 +31,13 @@ const RegisterCompany = () => {
           formData.append('password', formState.password.value);
           formData.append('password_confirmation', formState.password_confirmation.value);
 
-          // Add files (e.g., PDF file)
           if (files.length > 0) {
             files.forEach((file, index) => {
               formData.append(`licenses[${index + 1}]`, file);
             });
           }
 
-          console.log('Company registered successfully:', result);
+          console.log('Company registered successfully:');
         } catch (err) {
           console.error('Failed to register company:', err);
         }
@@ -49,7 +48,6 @@ const RegisterCompany = () => {
     [
       validateForm,
       files,
-      registerCompany,
       formState.company_name.value,
       formState.email.value,
       formState.license_code.value,

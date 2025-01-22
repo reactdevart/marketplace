@@ -1,17 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { decodeJWT, isExpired } from '@/utils/common';
-
 const initialState = {
   user: null,
 };
 
-const credentials = JSON.parse(localStorage.getItem('auth'));
-
-if (credentials && credentials?.access_token && credentials?.expires_in) {
-  const expired = isExpired(+decodeJWT(credentials.access_token)?.iat, +credentials.expires_in);
-  expired ? localStorage.removeItem('auth') : (initialState.user = credentials);
-}
+initialState.user = JSON.parse(localStorage.getItem('auth'));
 
 const authSlice = createSlice({
   name: 'auth',
@@ -23,7 +16,7 @@ const authSlice = createSlice({
     },
     logout: (state) => {
       state.user = null;
-      localStorage.removeItem('auth');
+      localStorage.clear();
     },
   },
 });

@@ -1,6 +1,7 @@
 import '@/modules/auth/components/features/ForgotPassword/ForgotPassword.scss';
 
 import { useCallback, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import EmailInput from '@/components/widgets/EmailInput';
@@ -9,10 +10,14 @@ import useFormValidator from '@/hooks/useFormValidator';
 import { FORGOT_PASSWORD_FORM } from '@/modules/auth/AuthLayout/constants';
 import AuthLink from '@/modules/auth/components/shared/AuthLink';
 import AuthTitleSubtitle from '@/modules/auth/components/shared/AuthTitleSubtitle';
+import { useForgotPasswordMutation } from '@/store/auth/authApiSlice';
+import { addToast } from '@/store/toaster/toasterSlice';
 
 const ForgotPassword = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
+  const [forgotPassword, { isLoading }] = useForgotPasswordMutation();
 
   const { formState, errors, handleChange, validateForm } = useFormValidator(FORGOT_PASSWORD_FORM);
 
@@ -21,15 +26,25 @@ const ForgotPassword = () => {
       e.preventDefault();
       if (validateForm()) {
         try {
-          console.log('Forgot password instructions sent:', result);
+          const result = await forgotPassword(formState.email.value).unwrap();
+          if (result) {
+            setStep(2);
+            dispatch(
+              addToast({
+                message: 'Password recovery instructions have been sent to your e-mail address.',
+                type: 'success',
+              })
+            );
+          }
         } catch (err) {
+          dispatch(addToast({ message: err?.data?.message || 'Something went wrong', type: 'error' }));
           console.error('Failed to send forgot password instructions:', err);
         }
       } else {
-        console.log('Form has errors.');
+        dispatch(addToast({ message: 'Form has errors.', type: 'error' }));
       }
     },
-    [validateForm, formState.email.value, forgotPassword]
+    [validateForm, formState, forgotPassword, dispatch]
   );
 
   const goBack = () => {
@@ -55,7 +70,7 @@ const ForgotPassword = () => {
             />
           </div>
           <div className="forgot-password__form-wrapper">
-            <Form onSubmit={handleSubmit} submitLabel="Send Instructions">
+            <Form pending={isLoading} onSubmit={handleSubmit} submitLabel="Send Instructions">
               <div className="forgot-password__email-input-wrapper">
                 <EmailInput name="email" error={errors.email} value={formState.email.value} onChange={handleChange} />
               </div>

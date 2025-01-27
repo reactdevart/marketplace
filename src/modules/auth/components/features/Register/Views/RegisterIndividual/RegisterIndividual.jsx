@@ -1,6 +1,7 @@
 import '@/modules/auth/components/features/Register/Views/RegisterIndividual/RegisterIndividual.scss';
 
 import { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 
 import Checkbox from '@/components/shared/Checkbox';
 import Input from '@/components/shared/Input';
@@ -13,31 +14,52 @@ import useFormValidator from '@/hooks/useFormValidator';
 import { REGISTER_INDIVIDUAL_FORM } from '@/modules/auth/AuthLayout/constants';
 import AuthLink from '@/modules/auth/components/shared/AuthLink';
 import AuthOr from '@/modules/auth/components/shared/AuthOr';
+import { useLoginMutation, useRegisterUserMutation } from '@/store/auth/authApiSlice';
+import { setCredentials } from '@/store/auth/authSlice';
+import { addToast } from '@/store/toaster/toasterSlice';
 
 const RegisterIndividual = () => {
   const { formState, errors, handleChange, validateForm } = useFormValidator(REGISTER_INDIVIDUAL_FORM);
+  const dispatch = useDispatch();
+  const [registerUser, { isLoading: isRegisterUserLoading }] = useRegisterUserMutation();
+  const [login, { isLoading: isLoginLoading }] = useLoginMutation();
 
   const handleSubmit = useCallback(
     async (e) => {
       e.preventDefault();
       if (validateForm()) {
-        e.preventDefault();
         try {
-          console.log('User registered successfully:');
+          const result = await registerUser({
+            first_name: formState.first_name.value,
+            last_name: formState.last_name.value,
+            email: formState.email.value,
+            password: formState.password.value,
+            password_confirmation: formState.password_confirmation.value,
+          }).unwrap();
+          if (result?.data?.email) {
+            const loginResult = await login({
+              username: formState.email.value,
+              password: formState.password.value,
+            }).unwrap();
+            if (loginResult?.access_token && loginResult?.refresh_token) {
+              dispatch(setCredentials({ ...loginResult, email: formState.email.value }));
+              dispatch(addToast({ message: 'You have successfully registered', type: 'success' }));
+            }
+          }
         } catch (err) {
-          console.error('Failed to register user:', err);
+          dispatch(addToast({ message: err.data.message, type: 'error' }));
         }
       } else {
-        console.log('Form has errors.');
+        dispatch(addToast({ message: 'Form has errors.', type: 'error' }));
       }
     },
-    [validateForm]
+    [validateForm, dispatch, formState, login, registerUser]
   );
 
   return (
     <div className="register-individual">
       <div className="register-individual__form-wrapper">
-        <Form onSubmit={handleSubmit} submitLabel="Create Account">
+        <Form onSubmit={handleSubmit} pending={isRegisterUserLoading || isLoginLoading} submitLabel="Create Account">
           <div className="register-individual__inputs-wrapper">
             <div className="register-individual__input-wrapper">
               <Input

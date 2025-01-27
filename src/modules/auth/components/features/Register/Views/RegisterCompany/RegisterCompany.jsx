@@ -1,6 +1,7 @@
 import '@/modules/auth/components/features/Register/Views/RegisterCompany/RegisterCompany.scss';
 
 import { useCallback, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import Checkbox from '@/components/shared/Checkbox';
 import Input from '@/components/shared/Input';
@@ -14,8 +15,14 @@ import AuthUploadFile from '@/modules/auth/components/widgets/AuthUploadFile';
 import AuthUploadedFileArea from '@/modules/auth/components/widgets/AuthUploadFile/AuthUploadedFileArea';
 import AuthUploadedFileItem from '@/modules/auth/components/widgets/AuthUploadFile/AuthUploadedFileItem';
 import AuthUploadFileArea from '@/modules/auth/components/widgets/AuthUploadFile/AuthUploadFileArea';
+import { useLoginMutation, useRegisterCompanyMutation } from '@/store/auth/authApiSlice';
+import { setCredentials } from '@/store/auth/authSlice';
+import { addToast } from '@/store/toaster/toasterSlice';
 
 const RegisterCompany = () => {
+  const dispatch = useDispatch();
+  const [registerCompany, { isLoading: isRegisterCompanyLoading }] = useRegisterCompanyMutation();
+  const [login, { isLoading: isLoginLoading }] = useLoginMutation();
   const [files, setFiles] = useState([]);
   const { formState, errors, handleChange, validateForm } = useFormValidator(REGISTER_COMPANY_FORM);
 
@@ -37,23 +44,25 @@ const RegisterCompany = () => {
             });
           }
 
-          console.log('Company registered successfully:');
+          const result = await registerCompany(formData).unwrap();
+          if (result?.data?.email) {
+            const loginResult = await login({
+              username: formState.email.value,
+              password: formState.password.value,
+            }).unwrap();
+            if (loginResult?.access_token && loginResult?.refresh_token) {
+              dispatch(setCredentials({ ...loginResult, email: formState.email.value }));
+              dispatch(addToast({ message: 'Company registered successfully', type: 'success' }));
+            }
+          }
         } catch (err) {
-          console.error('Failed to register company:', err);
+          dispatch(addToast({ message: err?.data?.message || 'Failed to register company', type: 'error' }));
         }
       } else {
-        console.log('Form has errors.');
+        dispatch(addToast({ message: 'Form has errors.', type: 'error' }));
       }
     },
-    [
-      validateForm,
-      files,
-      formState.company_name.value,
-      formState.email.value,
-      formState.license_code.value,
-      formState.password.value,
-      formState.password_confirmation.value,
-    ]
+    [validateForm, files, dispatch, formState, login, registerCompany]
   );
 
   const handleFile = useCallback(
@@ -75,7 +84,7 @@ const RegisterCompany = () => {
   return (
     <div className="register-company">
       <div className="register-company__form-wrapper">
-        <Form onSubmit={handleSubmit} submitLabel="Create Account">
+        <Form pending={isRegisterCompanyLoading || isLoginLoading} onSubmit={handleSubmit} submitLabel="Create Account">
           <div className="register-company__input-wrapper">
             <Input
               type="text"

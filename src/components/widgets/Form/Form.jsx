@@ -7,7 +7,7 @@ const Form = ({ children, submitLabel, onSubmit, pending }) => {
     <div className="form">
       {children && <div className="form__content">{children}</div>}
       <div style={{ marginTop: children ? 40 : 0 }} className="form__button-wrapper">
-        <Button disabled={pending} onClick={onSubmit} variant="gradient">
+        <Button pending={pending} onClick={onSubmit} variant="gradient">
           {submitLabel}
         </Button>
       </div>

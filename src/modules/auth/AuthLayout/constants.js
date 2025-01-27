@@ -2,12 +2,12 @@ export const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const LOGIN_FORM = {
   email: {
-    value: 'reactdevart@gmail.com',
+    value: '',
     required: true,
     pattern: EMAIL_PATTERN,
   },
   password: {
-    value: '}9`+W7d6vb08',
+    value: '',
     required: true,
     minLength: 8,
     isPassword: true,
